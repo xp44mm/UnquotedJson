@@ -1,6 +1,6 @@
 # UnquotedJson
 
-UnquotedJson is a JSON parser. In addition to being able to parse the standard JSON format, UnquotedJson also allows unquoted strings which are key strings, as well as strings in values.
+UnquotedJson is a JSON parser. In addition to being able to parse the standard JSON format, UnquotedJson also allows unquoted strings which are keys and/or strings in values.
 
 When a string is unquoted and does not cause parsing ambiguity or errors, the string can be unquoted or quoted.
 
