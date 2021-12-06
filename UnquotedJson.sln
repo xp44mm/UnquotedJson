@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnquotedJson", "UnquotedJson\UnquotedJson.fsproj", "{B2F9B25D-0532-4DB9-B6AE-9277629C8123}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnquotedJson.Test", "UnquotedJson.Test\UnquotedJson.Test.fsproj", "{356916B8-0A3B-40C1-A8C7-3C511C304B5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2F9B25D-0532-4DB9-B6AE-9277629C8123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F9B25D-0532-4DB9-B6AE-9277629C8123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F9B25D-0532-4DB9-B6AE-9277629C8123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F9B25D-0532-4DB9-B6AE-9277629C8123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{356916B8-0A3B-40C1-A8C7-3C511C304B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356916B8-0A3B-40C1-A8C7-3C511C304B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{356916B8-0A3B-40C1-A8C7-3C511C304B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{356916B8-0A3B-40C1-A8C7-3C511C304B5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF1CE30D-7B25-4D9E-B00F-2E0EFC5A86E5}
+	EndGlobalSection
+EndGlobal
