@@ -5,7 +5,7 @@ open FSharp.Idioms
 open System.Text.RegularExpressions
 
 let stringifyKey x =
-    if Regex.IsMatch(x,@"[,:{}[\]""]|(^\s)|(\s$)") then
+    if String.IsNullOrWhiteSpace x || Regex.IsMatch(x,@"[,:{}[\]""]|(^\s)|(\s$)") then
         quote x
     else
         x
