@@ -7,7 +7,7 @@ open FSharp.Literals
 open FSharp.xUnit
 open UnquotedJson
 
-type JsonSerializerTest(output:ITestOutputHelper) =
+type JsonValueTest(output:ITestOutputHelper) =
     let show res =
         res
         |> Render.stringify
@@ -109,8 +109,8 @@ type JsonSerializerTest(output:ITestOutputHelper) =
         let y = JSON.parse x
         //show y
         Should.equal y 
-        <| JsonValue.Object ["basic",JsonValue.Object ["0",JsonValue.Object ["index",JsonValue.Number 0.0;"license",JsonValue.String "t";"nameSID",JsonValue.String "n";"image",JsonValue.String "img_left";"descriptionSID",JsonValue.String "t";"category",JsonValue.String "r"]]]
-        
+        <| JsonValue.Object ["0",JsonValue.Object ["index",JsonValue.Number 0.0;"license",JsonValue.String "t";"nameSID",JsonValue.String "n";"image",JsonValue.String "img:left";"descriptionSID",JsonValue.String "t";"category",JsonValue.String "r"]]
+    
     [<Fact>]
     member this.``convert unquoted json``() =
         let x = """{0:{index:0, license:t, nameSID:n, image:"img:left", descriptionSID:t, category:r}}"""

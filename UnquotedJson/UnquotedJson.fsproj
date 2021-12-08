@@ -1,36 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>A JSON parser allows unquoted keys and values.</Description>
-    <Company>34696643@qq.com</Company>
-    <Authors>xp44m</Authors>
-    <Copyright>xp44mm</Copyright>
-    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
-    <PackageReleaseNotes>first version</PackageReleaseNotes>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Description>A JSON parser allows unquoted keys and values.</Description>
+		<Company>34696643@qq.com</Company>
+		<Authors>xp44m</Authors>
+		<Copyright>xp44mm</Copyright>
+		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
+		<PackageReleaseNotes>Object Serialization</PackageReleaseNotes>
+		<Version>1.0.1</Version>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="JsonValue.fs" />
-    <Compile Include="JsonToken.fs" />
-    <Compile Include="JsonTokenUtils.fs" />
-    <None Include="json.fsyacc" />
-    <Compile Include="JsonParseTable.fs" />
-    <Compile Include="JsonRender.fs" />
-    <Compile Include="JSON.fs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="JsonValue.fs" />
+		<Compile Include="JsonToken.fs" />
+		<Compile Include="JsonTokenUtils.fs" />
+		<None Include="json.fsyacc" />
+		<Compile Include="JsonParseTable.fs" />
+		<Compile Include="JsonRender.fs" />
 
-  <ItemGroup />
+		<Compile Include="Converters\FallbackConverter.fs" />
 
-  <ItemGroup>
-    <PackageReference Include="FSharp.Literals" Version="2.2.5" />
-    <PackageReference Include="FslexFsyacc.Runtime" Version="1.0.4" />
-  </ItemGroup>
+		<Compile Include="Converters\DateTimeOffsetConverter.fs" />
 
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="6.0.1" />
-  </ItemGroup>
+		<Compile Include="Converters\DBNullConverter.fs" />
+
+		<Compile Include="Converters\NullableConverter.fs" />
+		<Compile Include="Converters\ArrayConverter.fs" />
+		<Compile Include="Converters\ClassConverter.fs" />
+		<Compile Include="Converters\EnumConverter.fs" />
+		<Compile Include="Converters\GuidConverter.fs" />
+		<Compile Include="Converters\ListConverter.fs" />
+		<Compile Include="Converters\MapConverter.fs" />
+		<Compile Include="Converters\OptionConverter.fs" />
+		<Compile Include="Converters\RecordConverter.fs" />
+		<Compile Include="Converters\SetConverter.fs" />
+		<Compile Include="Converters\TimeSpanConverter.fs" />
+		<Compile Include="Converters\TupleConverter.fs" />
+		<Compile Include="Converters\UnionConverter.fs" />
+		<Compile Include="Converters\UriConverter.fs" />
+		<Compile Include="Converters\FSharpConverter.fs" />
+
+		<Compile Include="JSON.fs" />
+	</ItemGroup>
+
+	<ItemGroup />
+
+	<ItemGroup>
+		<PackageReference Include="FSharp.Literals" Version="2.2.5" />
+		<PackageReference Include="FslexFsyacc.Runtime" Version="1.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Update="FSharp.Core" Version="6.0.1" />
+	</ItemGroup>
 
 </Project>
