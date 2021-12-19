@@ -8,7 +8,7 @@ let parse(text:string) =
         failwith "empty string is illeagal json string."
     else
         text
-        |> JsonTokenUtils.tokenize
+        |> JsonTokenUtils.tokenizeWithPos
         |> JsonParseTable.parse
 
 ///
