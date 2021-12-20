@@ -4,7 +4,7 @@ UnquotedJson is a JSON parser. In addition to being able to parse the standard J
 
 When a string is unquoted and does not cause parsing ambiguity or errors, the string can be unquoted or quoted.
 
-When a string is unquoted and causes parsing ambiguity or errors, the string must be quoted.
+When a string is unquoted and causes parsing ambiguity or errors, the string must be quoted. Those that cannot be omitted must not be omitted.
 
 ## Format Convert
 
