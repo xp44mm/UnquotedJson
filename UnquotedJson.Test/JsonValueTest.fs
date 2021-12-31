@@ -14,7 +14,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         |> output.WriteLine
 
     [<Fact>]
-    member this.``empty object``() =
+    member _.``empty object``() =
         let x = "{}"
         let y = JSON.parse x
         //show y
@@ -22,7 +22,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Object []
 
     [<Fact>]
-    member this.``empty array``() =
+    member _.``empty array``() =
         let x = "[]"
         let y = JSON.parse x
         //show y
@@ -30,7 +30,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Array []
 
     [<Fact>]
-    member this.``null``() =
+    member _.``null``() =
         let x = "null"
         let y = JSON.parse x
         //show y
@@ -38,7 +38,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Null
 
     [<Fact>]
-    member this.``false``() =
+    member _.``false``() =
         let x = "false"
         let y = JSON.parse x
         //show y
@@ -46,7 +46,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.False
 
     [<Fact>]
-    member this.``true``() =
+    member _.``true``() =
         let x = "true"
         let y = JSON.parse x
         //show y
@@ -54,7 +54,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.True
 
     [<Fact>]
-    member this.``empty string``() =
+    member _.``empty string``() =
         let x = String.replicate 2 "\""
         let y = JSON.parse x
         //show y
@@ -62,7 +62,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.String ""
 
     [<Fact>]
-    member this.``number``() =
+    member _.``number``() =
         let x = "0"
         let y = JSON.parse x
         //show y
@@ -70,7 +70,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Number 0.0
 
     [<Fact>]
-    member this.``single field object``() =
+    member _.``single field object``() =
         let x = """{"a":0}"""
         let y = JSON.parse x
         //show y
@@ -78,7 +78,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Object["a",JsonValue.Number 0.0]
 
     [<Fact>]
-    member this.``many fields object``() =
+    member _.``many fields object``() =
         let x = """{"a":0,"b":null}"""
         let y = JSON.parse x
         //show y
@@ -86,7 +86,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Object ["a",JsonValue.Number 0.0;"b",JsonValue.Null;]
 
     [<Fact>]
-    member this.``singleton array``() =
+    member _.``singleton array``() =
         let x = "[0]"
         let y = JSON.parse x
         //show y
@@ -94,7 +94,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Array [JsonValue.Number 0.0]
 
     [<Fact>]
-    member this.``many elements array``() =
+    member _.``many elements array``() =
         let x = "[0,1]"
         let y = JSON.parse x
         //show y
@@ -102,7 +102,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Array [JsonValue.Number 0.0;JsonValue.Number 1.0]
 
     [<Fact>]
-    member this.``unquoted json``() =
+    member _.``unquoted json``() =
         let x = """
         {0:{index:0, license:t, nameSID:n, image:"img:left", descriptionSID:t, category:r}}
         """
@@ -112,7 +112,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         <| JsonValue.Object ["0",JsonValue.Object ["index",JsonValue.Number 0.0;"license",JsonValue.String "t";"nameSID",JsonValue.String "n";"image",JsonValue.String "img:left";"descriptionSID",JsonValue.String "t";"category",JsonValue.String "r"]]
     
     [<Fact>]
-    member this.``convert unquoted json``() =
+    member _.``convert unquoted json``() =
         let x = """{0:{index:0, license:t, nameSID:n, image:"img:left", descriptionSID:t, category:r}}"""
         let n = """{"0":{"index":0,"license":"t","nameSID":"n","image":"img:left","descriptionSID":"t","category":"r"}}"""
 
@@ -124,7 +124,7 @@ type JsonValueTest(output:ITestOutputHelper) =
         show y
 
     [<Fact>]
-    member this.``parse normal json``() =
+    member _.``parse normal json``() =
         let n = """{"0":{"index":0,"license":"t","nameSID":"n","image":"img:left","descriptionSID":"t","category":"r"}}"""
 
         let y = 

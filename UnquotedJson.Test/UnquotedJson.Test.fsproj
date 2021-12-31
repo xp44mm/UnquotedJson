@@ -1,57 +1,57 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
-    <GenerateProgramFile>false</GenerateProgramFile>
-  </PropertyGroup>
+		<IsPackable>false</IsPackable>
+		<GenerateProgramFile>false</GenerateProgramFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="UnquotedJsonParseTableTest.fs" />
-    <Compile Include="JsonValueTest.fs" />
-    <Compile Include="Converters\Serialization.fs" />
-    <Compile Include="Converters\FallbackReaderTest.fs" />
-    <Compile Include="Converters\FallbackWriterTest.fs" />
-    <Compile Include="Converters\EnumTest.fs" />
-    <Compile Include="Converters\GuidTest.fs" />
-    <Compile Include="Converters\DateTimeOffsetConverterTest.fs" />
-    <Compile Include="Converters\TimeSpanConverterTest.fs" />
-    <Compile Include="Converters\DBNullConverterTest.fs" />
-    <Compile Include="Converters\NullableTest.fs" />
-    <Compile Include="Converters\OptionTest.fs" />
-    <Compile Include="Converters\RecordTest.fs" />
-    <Compile Include="Converters\ArrayTest.fs" />
-    <Compile Include="Converters\TupleTest.fs" />
-    <Compile Include="Converters\ListTest.fs" />
-    <Compile Include="Converters\SetTest.fs" />
-    <Compile Include="Converters\MapTest.fs" />
-    <Compile Include="Converters\UnionTest.fs" />
-    <Compile Include="Converters\ClassTest.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="UnquotedJsonParseTableTest.fs" />
+		<Compile Include="JsonValueTest.fs" />
+		<Compile Include="Converters\Serialization.fs" />
+		<Compile Include="Converters\FallbackReaderTest.fs" />
+		<Compile Include="Converters\FallbackWriterTest.fs" />
+		<Compile Include="Converters\EnumTest.fs" />
+		<Compile Include="Converters\GuidTest.fs" />
+		<Compile Include="Converters\DateTimeOffsetConverterTest.fs" />
+		<Compile Include="Converters\TimeSpanConverterTest.fs" />
+		<Compile Include="Converters\DBNullConverterTest.fs" />
+		<Compile Include="Converters\NullableTest.fs" />
+		<Compile Include="Converters\OptionTest.fs" />
+		<Compile Include="Converters\RecordTest.fs" />
+		<Compile Include="Converters\ArrayTest.fs" />
+		<Compile Include="Converters\TupleTest.fs" />
+		<Compile Include="Converters\ListTest.fs" />
+		<Compile Include="Converters\SetTest.fs" />
+		<Compile Include="Converters\MapTest.fs" />
+		<Compile Include="Converters\UnionTest.fs" />
+		<Compile Include="Converters\ClassTest.fs" />
+		<Compile Include="Program.fs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FSharp.xUnit" Version="1.2.1" />
-    <PackageReference Include="FslexFsyacc" Version="1.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FSharp.xUnit" Version="1.2.1" />
+		<PackageReference Include="FslexFsyacc" Version="1.2.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.collector" Version="3.1.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\UnquotedJson\UnquotedJson.fsproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\UnquotedJson\UnquotedJson.fsproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="6.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Update="FSharp.Core" Version="6.0.1" />
+	</ItemGroup>
 
 </Project>

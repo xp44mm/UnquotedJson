@@ -10,14 +10,14 @@ open FSharp.xUnit
 
 type GuidTest(output: ITestOutputHelper) =
     [<Fact>]
-    member this.``serialize``() =
+    member _.``serialize``() =
         let x = Guid("936da01f-9abd-4d9d-80c7-02af85c822a8")
         let y = serialize x
         //output.WriteLine(Render.stringify y)
         Should.equal y "\"936da01f-9abd-4d9d-80c7-02af85c822a8\""
 
     [<Fact>]
-    member this.``deserialize``() =
+    member _.``deserialize``() =
         let x = "\"936da01f-9abd-4d9d-80c7-02af85c822a8\""
         let y = deserialize<Guid> x
         //output.WriteLine(Render.stringify y)
@@ -25,7 +25,7 @@ type GuidTest(output: ITestOutputHelper) =
 
 
     [<Fact>]
-    member this.``read``() =
+    member _.``read``() =
         let x = Guid("936da01f-9abd-4d9d-80c7-02af85c822a8")
         let y = JSON.read x
         //output.WriteLine(Render.stringify y)
@@ -33,7 +33,7 @@ type GuidTest(output: ITestOutputHelper) =
         <| JsonValue.String "936da01f-9abd-4d9d-80c7-02af85c822a8"
 
     [<Fact>]
-    member this.``instantiate``() =
+    member _.``instantiate``() =
         let x = JsonValue.String "936da01f-9abd-4d9d-80c7-02af85c822a8"
         let y = JSON.write<Guid> x
 

@@ -10,14 +10,14 @@ open FSharp.xUnit
 
 type TimeSpanConverterTest(output: ITestOutputHelper) =
     [<Fact>]
-    member this.``serialize DateTimeOffset``() =
+    member _.``serialize DateTimeOffset``() =
         let x = TimeSpan(2, 14, 18)
         let y = serialize x
         //output.WriteLine(Render.stringify y)
         Should.equal y <| "\"02:14:18\""
 
     [<Fact>]
-    member this.``deserialize DateTimeOffset``() =
+    member _.``deserialize DateTimeOffset``() =
         let x = "\"02:14:18\""
         let y = deserialize<TimeSpan> x
         //output.WriteLine(Render.stringify y)
@@ -25,14 +25,14 @@ type TimeSpanConverterTest(output: ITestOutputHelper) =
 
 
     [<Fact>]
-    member this.``read DateTimeOffset``() =
+    member _.``read DateTimeOffset``() =
         let x = TimeSpan(2, 14, 18)
         let y = JSON.read x
         //output.WriteLine(Render.stringify y)
         Should.equal y <| JsonValue.String "02:14:18"
 
     [<Fact>]
-    member this.``DateTimeOffset instantiate``() =
+    member _.``DateTimeOffset instantiate``() =
         let x = JsonValue.String "02:14:18"
         let y = JSON.write<TimeSpan> x
         //output.WriteLine(Render.stringify y)

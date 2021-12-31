@@ -11,58 +11,58 @@ open FSharp.xUnit
 
 type NullableTest(output: ITestOutputHelper) =
     [<Fact>]
-    member this.``serialize nullable``() =
+    member _.``serialize nullable``() =
         let x = Nullable 3
         let y = serialize x
         Should.equal y "3"
 
     [<Fact>]
-    member this.``serialize nullable null``() =
+    member _.``serialize nullable null``() =
         let x = Nullable ()
         let y = serialize x
         Should.equal y "null"
 
     [<Fact>]
-    member this.``deserialize nullable``() =
+    member _.``deserialize nullable``() =
         let x = "3" 
         let y = deserialize<Nullable<int>> x
         Should.equal y <| Nullable 3
 
     [<Fact>]
-    member this.``deserialize nullable null``() =
+    member _.``deserialize nullable null``() =
         let x = "null"
         let y = deserialize<Nullable<_>> x
         Should.equal y <| Nullable ()
 
     [<Fact>]
-    member this.``read nullable``() =
+    member _.``read nullable``() =
         let x = Nullable 3
         let y = JSON.read x
         Should.equal y <| JsonValue.Number 3.0
 
     [<Fact>]
-    member this.``read nullable null``() =
+    member _.``read nullable null``() =
         let x = Nullable()
         let y = JSON.read x
         Should.equal y <| JsonValue.Null
 
 
     [<Fact>]
-    member this.``write nullable``() =
+    member _.``write nullable``() =
         let x = JsonValue.Number 3.0
         let y = JSON.write<Nullable<int>> x
 
         Should.equal y <| Nullable 3
 
     [<Fact>]
-    member this.``write nullable null``() =
+    member _.``write nullable null``() =
         let x = JsonValue.Null
         let y = JSON.write<Nullable<_>> x
 
         Should.equal y <| Nullable ()
 
     [<Fact>]
-    member this.``nullable equality``() =
+    member _.``nullable equality``() =
 
         Assert.True(Nullable()=Nullable())
         Assert.True(Nullable 3=Nullable 3)

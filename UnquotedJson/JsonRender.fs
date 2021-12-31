@@ -3,19 +3,20 @@
 open System
 open FSharp.Idioms
 open System.Text.RegularExpressions
+open FSharp.Idioms
 
 let stringifyKey x =
     if String.IsNullOrWhiteSpace x || 
         Regex.IsMatch(x,@"[,:{}[\]""\x00-\x1F\x7F]|(^\x20)|(\x20$)") then
-        quote x
+        Quotation.quote x
     else
         x
     
 let stringifyStringValue x =
     if x = "true" || x = "false" || x = "null" then
-        quote x
+        Quotation.quote x
     elif Regex.IsMatch(x, @"[-+]?\d+(\.\d+)?([eE][-+]?\d+)?") then
-        quote x
+        Quotation.quote x
     else
         stringifyKey x
 
@@ -46,7 +47,7 @@ let rec stringifyNormalJson (json:JsonValue)=
     | JsonValue.Object pairs ->
         pairs
         |> List.map(fun(k,v)->
-           quote k + ":" + stringifyNormalJson v
+           Quotation.quote k + ":" + stringifyNormalJson v
         )
         |> String.concat ","
         |> sprintf "{%s}"
@@ -60,5 +61,5 @@ let rec stringifyNormalJson (json:JsonValue)=
     | JsonValue.Null -> "null"
     | JsonValue.False -> "false"
     | JsonValue.True -> "true"
-    | JsonValue.String x -> quote x
+    | JsonValue.String x -> Quotation.quote x
     | JsonValue.Number c -> Convert.ToString c

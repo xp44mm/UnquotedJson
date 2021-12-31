@@ -10,40 +10,40 @@ open FSharp.xUnit
 
 type OptionTest(output: ITestOutputHelper) =
     [<Fact>]
-    member this.``serialize none``() =
+    member _.``serialize none``() =
         let x = None
         let y = serialize x
         Should.equal y "null"
 
     [<Fact>]
-    member this.``deserialize none``() =
+    member _.``deserialize none``() =
         let x = "null"
         let y = deserialize<_ option> x
         //output.WriteLine(Render.stringify y)
         Should.equal y None
 
     [<Fact>]
-    member this.``serialize some``() =
+    member _.``serialize some``() =
         let x = Some 1
         let y = serialize x
         //output.WriteLine(Render.stringify y)
         Should.equal y "1"
 
     [<Fact>]
-    member this.``deserialize some``() =
+    member _.``deserialize some``() =
         let x = "1"
         let y = deserialize<int option> x
         //output.WriteLine(Render.stringify y)
         Should.equal y <| Some 1
 
     [<Fact>]
-    member this.``read none``() =
+    member _.``read none``() =
         let x = None
         let y = JSON.read<int option> x
         Should.equal y JsonValue.Null
 
     [<Fact>]
-    member this.``write none``() =
+    member _.``write none``() =
         let x = JsonValue.Null
         let y = JSON.write<int option> x
 
@@ -51,14 +51,14 @@ type OptionTest(output: ITestOutputHelper) =
         Should.equal y None
 
     [<Fact>]
-    member this.``read some``() =
+    member _.``read some``() =
         let x = Some 1
         let y = JSON.read x
         //output.WriteLine(Render.stringify y)
         Should.equal y <| JsonValue.Number 1.0
 
     [<Fact>]
-    member this.``write some``() =
+    member _.``write some``() =
         let x = JsonValue.Number 1.0
         let y = JSON.write<int option> x
         //output.WriteLine(Render.stringify y)

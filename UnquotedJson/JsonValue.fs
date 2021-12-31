@@ -2,13 +2,13 @@
 
 [<RequireQualifiedAccess>]
 type JsonValue =
-| Object of list<string*JsonValue>
-| Array  of JsonValue list
-| Null
-| False
-| True
-| String of string
-| Number of float 
+    | Object of list<string*JsonValue>
+    | Array  of JsonValue list
+    | Null
+    | False
+    | True
+    | String of string
+    | Number of float 
 
     member t.Item with get(idx:int) =
         match t with

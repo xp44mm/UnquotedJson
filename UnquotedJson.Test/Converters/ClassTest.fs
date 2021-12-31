@@ -21,14 +21,14 @@ type MutableVector2D() =
 
 type ClassTest(output: ITestOutputHelper) =
     [<Fact>]
-    member this.``JSON read``() =
+    member _.``JSON read``() =
         let x = MutableVector2D()
         let y = JSON.read x
         //output.WriteLine(Render.stringify y)
         Should.equal y <| JsonValue.Object ["DX",JsonValue.Number 0.0;"DY",JsonValue.Number 0.0]
 
     [<Fact>]
-    member this.``JSON write``() =
+    member _.``JSON write``() =
         let x = JsonValue.Object ["DX",JsonValue.Number 0.0;"DY",JsonValue.Number 0.0]
         let y = JSON.write<MutableVector2D> x
         //output.WriteLine(Render.stringify y)
@@ -36,7 +36,7 @@ type ClassTest(output: ITestOutputHelper) =
         Should.equal (y.DX,y.DY) (z.DX,z.DY)
 
     [<Fact>]
-    member this.``is class``() =
+    member _.``is class``() =
         Should.equal typeof<bool>.IsClass       false
         Should.equal typeof<sbyte>.IsClass      false
         Should.equal typeof<byte>.IsClass       false

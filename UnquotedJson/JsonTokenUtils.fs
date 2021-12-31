@@ -1,6 +1,7 @@
 ﻿module UnquotedJson.JsonTokenUtils
 
 open System.Text.RegularExpressions
+open FSharp.Idioms
 open FSharp.Idioms.StringOps
 
 let tokenize(inp:string) =
@@ -37,7 +38,7 @@ let tokenize(inp:string) =
                 yield! loop rest
 
             | Prefix """(?:"(\\[\\"bfnrt]|\\u[0-9A-Fa-f]{4}|[^\\"\r\n])*")""" (lexeme,rest) ->
-                yield  QUOTED(unquote lexeme)
+                yield  QUOTED(Quotation.unquote lexeme)
                 yield! loop rest
 
             | Prefix @"[^,:{}[\]""]+(?<=\S)" (lexeme,rest) ->
@@ -84,7 +85,7 @@ let tokenizeWithPos (inp:string) =
                 yield! loop (pos+1) rest
 
             | Prefix """(?:"(\\[\\"bfnrt]|\\u[0-9A-Fa-f]{4}|[^\\"\r\n])*")""" (lexeme,rest) ->
-                yield pos,QUOTED(unquote lexeme)
+                yield pos,QUOTED(Quotation.unquote lexeme)
                 let pos = pos + lexeme.Length
                 yield! loop pos rest
 

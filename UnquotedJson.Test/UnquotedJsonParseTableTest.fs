@@ -25,28 +25,28 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
     let fsyacc = FsyaccFile.parse text
 
     [<Fact>]
-    member this.``0-产生式冲突``() =
+    member _.``0-产生式冲突``() =
         let tbl = AmbiguousTable.create fsyacc.mainProductions
         let pconflicts = ConflictFactory.productionConflict tbl.ambiguousTable
         //show pconflicts
         Assert.True(pconflicts.IsEmpty)
 
     [<Fact>]
-    member this.``1-符号多用警告``() =
+    member _.``1-符号多用警告``() =
         let tbl = AmbiguousTable.create fsyacc.mainProductions
         let warning = ConflictFactory.overloadsWarning tbl
         //show warning
         Assert.True(warning.IsEmpty)
 
     [<Fact>]
-    member this.``2-优先级冲突``() =
+    member _.``2-优先级冲突``() =
         let tbl = AmbiguousTable.create fsyacc.mainProductions
         let srconflicts = ConflictFactory.shiftReduceConflict tbl
         show srconflicts
         Assert.True(srconflicts.IsEmpty)
 
     [<Fact>]
-    member this.``3 - print the template of type annotaitions``() =
+    member _.``3 - print the template of type annotaitions``() =
         let grammar = Grammar.from fsyacc.mainProductions
 
         let symbols = 
@@ -60,9 +60,8 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
             ] |> String.concat "\r\n"
         output.WriteLine(sourceCode)
 
-
-    [<Fact(Skip="once and for all!")>] // 
-    member this.``5-generate parsing table``() =
+    [<Fact>] // (Skip="once and for all!")
+    member _.``5-generate parsing table``() =
         let name = "JsonParseTable"
         let moduleName = $"UnquotedJson.{name}"
 
@@ -75,7 +74,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
         output.WriteLine("output path:"+outputDir)
 
     [<Fact>]
-    member this.``6 - valid ParseTable``() =
+    member _.``6 - valid ParseTable``() =
         let t = fsyacc.toFsyaccParseTable()
 
         Should.equal t.header        JsonParseTable.header
