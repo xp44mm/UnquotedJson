@@ -4,7 +4,7 @@ open System.Text.RegularExpressions
 open FSharp.Idioms
 open FSharp.Idioms.StringOps
 
-let tokenize(inp:string) =
+let private tokenize(inp:string) =
     let rec loop (inp:string) =
         seq {
             match inp with

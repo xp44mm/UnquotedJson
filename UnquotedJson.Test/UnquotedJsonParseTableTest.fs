@@ -21,33 +21,42 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
     let locatePath = Path.Combine(solutionPath,@"UnquotedJson")
     let filePath = Path.Combine(locatePath, "json.fsyacc")
     let text = File.ReadAllText(filePath)
-
-    let fsyacc = FsyaccFile.parse text
-
-    [<Fact>]
-    member _.``0-产生式冲突``() =
-        let tbl = AmbiguousTable.create fsyacc.mainProductions
-        let pconflicts = ConflictFactory.productionConflict tbl.ambiguousTable
-        //show pconflicts
-        Assert.True(pconflicts.IsEmpty)
+    let rawFsyacc = FsyaccFile.parse text
+    let fsyacc = NormFsyaccFile.fromRaw rawFsyacc
 
     [<Fact>]
-    member _.``1-符号多用警告``() =
-        let tbl = AmbiguousTable.create fsyacc.mainProductions
-        let warning = ConflictFactory.overloadsWarning tbl
-        //show warning
-        Assert.True(warning.IsEmpty)
+    member _.``1 - 显示冲突状态的冲突项目``() =
+        let collection =
+            AmbiguousCollection.create <| fsyacc.getMainProductions()
+        let conflicts =
+            collection.filterConflictedClosures()
+        show conflicts
+
+        //Should.equal y conflicts
 
     [<Fact>]
-    member _.``2-优先级冲突``() =
-        let tbl = AmbiguousTable.create fsyacc.mainProductions
-        let srconflicts = ConflictFactory.shiftReduceConflict tbl
-        show srconflicts
-        Assert.True(srconflicts.IsEmpty)
+    member _.``2 - 汇总冲突的产生式``() =
+        let collection =
+            AmbiguousCollection.create  <| fsyacc.getMainProductions()
+        let conflicts =
+            collection.filterConflictedClosures()
+
+        let productions =
+            AmbiguousCollection.gatherProductions conflicts
+        // production -> %prec
+        let pprods =
+            ProductionUtils.precedenceOfProductions collection.grammar.terminals productions
+            |> List.ofArray
+        //优先级应该据此结果给出，不能少，也不应该多。
+        let y = [
+            ]
+
+        Should.equal y pprods
+
 
     [<Fact>]
     member _.``3 - print the template of type annotaitions``() =
-        let grammar = Grammar.from fsyacc.mainProductions
+        let grammar = Grammar.from  <| fsyacc.getMainProductions()
 
         let symbols = 
             grammar.symbols 
@@ -60,12 +69,12 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
             ] |> String.concat "\r\n"
         output.WriteLine(sourceCode)
 
-    [<Fact>] // (Skip="once and for all!")
+    [<Fact(Skip="once and for all!")>] // 
     member _.``5-generate parsing table``() =
         let name = "JsonParseTable"
         let moduleName = $"UnquotedJson.{name}"
 
-        let parseTbl = fsyacc.toFsyaccParseTable()
+        let parseTbl = fsyacc.toFsyaccParseTableFile()
         //解析表数据
         let fsharpCode = parseTbl.generate(moduleName)
         let outputDir = Path.Combine(locatePath, $"{name}.fs")
@@ -75,13 +84,12 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
 
     [<Fact>]
     member _.``6 - valid ParseTable``() =
-        let t = fsyacc.toFsyaccParseTable()
+        let t = fsyacc.toFsyaccParseTableFile()
 
         Should.equal t.header        JsonParseTable.header
-        Should.equal t.productions   JsonParseTable.productions
+        Should.equal t.rules   JsonParseTable.rules
         Should.equal t.actions       JsonParseTable.actions
-        Should.equal t.kernelSymbols JsonParseTable.kernelSymbols
-        Should.equal t.semantics     JsonParseTable.semantics
+        Should.equal t.closures JsonParseTable.closures
         Should.equal t.declarations  JsonParseTable.declarations
 
 

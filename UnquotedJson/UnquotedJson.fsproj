@@ -9,8 +9,8 @@
 		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
-		<PackageReleaseNotes>update fsyacc input interface</PackageReleaseNotes>
-		<Version>1.0.3</Version>
+		<PackageReleaseNotes>update dependencies</PackageReleaseNotes>
+		<Version>1.0.5</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageTags>unquoted; JSON; parser</PackageTags>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
@@ -18,18 +18,10 @@
 
 	<ItemGroup>
 		<Compile Include="JsonValue.fs" />
-		<Compile Include="JsonToken.fs" />
-		<Compile Include="JsonTokenUtils.fs" />
-		<None Include="json.fsyacc" />
-		<Compile Include="JsonParseTable.fs" />
 		<Compile Include="JsonRender.fs" />
-
 		<Compile Include="Converters\FallbackConverter.fs" />
-
 		<Compile Include="Converters\DateTimeOffsetConverter.fs" />
-
 		<Compile Include="Converters\DBNullConverter.fs" />
-
 		<Compile Include="Converters\NullableConverter.fs" />
 		<Compile Include="Converters\ArrayConverter.fs" />
 		<Compile Include="Converters\ClassConverter.fs" />
@@ -45,6 +37,10 @@
 		<Compile Include="Converters\UnionConverter.fs" />
 		<Compile Include="Converters\UriConverter.fs" />
 		<Compile Include="Converters\FSharpConverter.fs" />
+		<Compile Include="JsonToken.fs" />
+		<Compile Include="JsonTokenUtils.fs" />
+		<None Include="json.fsyacc" />
+		<Compile Include="JsonParseTable.fs" />
 
 		<Compile Include="JSON.fs" />
 
@@ -55,12 +51,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FSharp.Literals" Version="2.2.7" />
-		<PackageReference Include="FslexFsyacc.Runtime" Version="1.2.0" />
+		<PackageReference Include="FSharp.Literals" Version="2.2.8" />
+		<PackageReference Include="FslexFsyacc.Runtime" Version="1.2.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Update="FSharp.Core" Version="6.0.1" />
+		<PackageReference Update="FSharp.Core" Version="6.0.3" />
 	</ItemGroup>
 
 </Project>
