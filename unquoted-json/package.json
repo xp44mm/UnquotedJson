@@ -1,0 +1,37 @@
+{
+  "devDependencies": {
+    "@babel/core": "7.17.7",
+    "@babel/plugin-proposal-class-properties": "7.16.7",
+    "@babel/plugin-proposal-export-default-from": "7.16.7",
+    "@babel/plugin-proposal-export-namespace-from": "7.16.7",
+    "@babel/plugin-proposal-pipeline-operator": "7.17.6",
+    "@babel/preset-env": "7.16.11",
+    "@webpack-cli/serve": "1.6.1",
+    "babel-jest": "27.5.1",
+    "babel-loader": "8.2.3",
+    "clean-webpack-plugin": "4.0.0",
+    "core-js": "3.21.1",
+    "jest": "27.5.1",
+    "webpack": "5.70.0",
+    "webpack-bundle-analyzer": "4.5.0",
+    "webpack-cli": "4.9.2",
+    "webpack-dev-server": "4.7.4",
+    "webpack-merge": "5.8.0"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack serve --config webpack.dev.js",
+    "test": "jest"
+  },
+  "name": "unquoted-json",
+  "version": "1.0.0",
+  "author": "cuishengli",
+  "description": "unquoted-json is a serializer that convert the input object into a shorter unquoted json format.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xp44mm/unquoted-json"
+  },
+  "main": "dist/unquoted-json.js",
+  "license": "ISC"
+}

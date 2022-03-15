@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Authors>xp44m</Authors>
+		<Company>34696643@qq.com</Company>
+		<Description>ASP.NET Json serializer.</Description>
+		<Copyright>xp44mm</Copyright>
+		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
+		<PackageReleaseNotes>first version</PackageReleaseNotes>
+		<OutputType>Library</OutputType>
+		<IsPackable>true</IsPackable>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Version>0.0.2</Version>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="Query.fs" />
+		<Compile Include="UnquotedJsonActionResultExecutor.fs" />
+		<Compile Include="UnquotedJsonDependencyInjection.fs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<None Include="readme.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
+		<PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
+		<ProjectReference Include="..\UnquotedJson\UnquotedJson.fsproj" />
+		<PackageReference Update="FSharp.Core" Version="6.0.3" />
+	</ItemGroup>
+
+
+</Project>

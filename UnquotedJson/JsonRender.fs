@@ -3,11 +3,10 @@
 open System
 open FSharp.Idioms
 open System.Text.RegularExpressions
-open FSharp.Idioms
 
 let stringifyKey x =
     if String.IsNullOrWhiteSpace x || 
-        Regex.IsMatch(x,@"[,:{}[\]""\x00-\x1F\x7F]|(^\x20)|(\x20$)") then
+        Regex.IsMatch(x,@"[,:{}[\]""\u0000-\u001F\u007F]|(^\u0020)|(\u0020$)") then
         Quotation.quote x
     else
         x
@@ -15,7 +14,7 @@ let stringifyKey x =
 let stringifyStringValue x =
     if x = "true" || x = "false" || x = "null" then
         Quotation.quote x
-    elif Regex.IsMatch(x, @"[-+]?\d+(\.\d+)?([eE][-+]?\d+)?") then
+    elif Regex.IsMatch(x, @"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?$") then
         Quotation.quote x
     else
         stringifyKey x

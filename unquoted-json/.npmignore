@@ -1,0 +1,10 @@
+babel.config.js
+prettier.config.js
+package-lock.json
+/src/
+/test/
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
+*.md
+/.*

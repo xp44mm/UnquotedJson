@@ -7,7 +7,7 @@ open System
 
 let tryRead (ty: Type) (value: obj) =
     if FSharpType.IsUnion ty then
-        Some(fun loopRead -> 
+        fun loopRead -> 
             let reader = UnionType.readUnion ty
             let name,fields = reader value
             //简化            
@@ -22,7 +22,7 @@ let tryRead (ty: Type) (value: obj) =
                 // union case is tuple
                 let unionFields = TupleConverter.readTupleFields loopRead fields
                 JsonValue.Object [name,unionFields]
-        )
+        |> Some
     else
         None
 

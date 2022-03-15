@@ -4,7 +4,7 @@ open System
 
 ///
 let parse(text:string) = 
-    if System.String.IsNullOrWhiteSpace text then
+    if String.IsNullOrWhiteSpace text then
         failwith "empty string is illeagal json string."
     else
         text
@@ -28,5 +28,6 @@ let writeDynamic (ty:Type) (json:JsonValue) =
     FSharpConverter.writeObj FSharpConverter.tryWriters ty json
 
 /// convert from json to value
-let write<'t> (json:JsonValue) = writeDynamic typeof<'t> json :?> 't
+let write<'t> (json:JsonValue) = 
+    writeDynamic typeof<'t> json :?> 't
 

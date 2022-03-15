@@ -28,6 +28,7 @@
 		<Compile Include="Converters\MapTest.fs" />
 		<Compile Include="Converters\UnionTest.fs" />
 		<Compile Include="Converters\ClassTest.fs" />
+		<Compile Include="UrlQueryTest.fs" />
 		<Compile Include="Program.fs" />
 	</ItemGroup>
 

@@ -15,14 +15,15 @@ let readArrayElements (loopRead: Type -> obj -> JsonValue) (elemType: Type) (ele
 
 let tryRead (ty:Type) (value:obj) = 
     if ty.IsArray && ty.GetArrayRank() = 1 then
-        Some(fun loop -> 
+        fun loop -> 
             let elemType,elements = ArrayType.readArray ty value
-            readArrayElements loop elemType elements)
+            readArrayElements loop elemType elements
+        |> Some
     else None
 
 let tryWrite (ty:Type) (json:JsonValue) = 
     if ty.IsArray && ty.GetArrayRank() = 1 then
-        Some(fun loopWrite -> 
+        fun loopWrite -> 
             match json with
             | JsonValue.Array elements ->
                 let elementType = ArrayType.getElementType ty
@@ -32,5 +33,5 @@ let tryWrite (ty:Type) (json:JsonValue) =
                 |> List.iteri(fun i v -> arr.SetValue(v, i))
                 box arr
             | _ -> failwith "ArrayWriter.write()"
-        )
+        |> Some
     else None

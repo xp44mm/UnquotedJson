@@ -133,4 +133,13 @@ The signature of `tryWrite` is:
 tryWrite:Type -> JsonValue -> ((Type -> JsonValue -> obj) -> obj) option
 ```
 
+The usage see also [FSharpConverter.fs](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/Converters/FSharpConverter.fs)
 The return value of `JSON.parse` is `JsonValue` type that is a Discriminated Union type of F#.
+
+### UrlQuery
+
+UnquotedJson can be used for query strings in URLs. When the field is of primitive type, the query string format is used. When the field is a complex type, use the Unqoted Json format.
+
+The source see [UrlQuery](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/UrlQuery.fs)
+
+The usage see also [UrlQueryTest.fs](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson.Test/UrlQueryTest.fs)

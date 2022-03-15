@@ -41,7 +41,8 @@ let tryWriters = [
 ]
 
 /// dynamic read from obj to json
-let rec readObj (tryReaders:seq<Type -> obj -> ((Type -> obj -> JsonValue) -> JsonValue) option>) (ty:Type) (value:obj) =
+let rec readObj (tryReaders:seq<Type -> obj -> ((Type -> obj -> JsonValue) -> JsonValue) option>) 
+                (ty:Type) (value:obj) =
     let read =
         tryReaders
         |> Seq.tryPick(fun tryRead -> tryRead ty value)
@@ -49,7 +50,8 @@ let rec readObj (tryReaders:seq<Type -> obj -> ((Type -> obj -> JsonValue) -> Js
     read(readObj tryReaders)
 
 /// write to obj from json.
-let rec writeObj (tryWriters:seq<Type -> JsonValue -> ((Type -> JsonValue -> obj) -> obj) option>) (ty:Type) (json:JsonValue) =
+let rec writeObj (tryWriters:seq<Type -> JsonValue -> ((Type -> JsonValue -> obj) -> obj) option>) 
+                 (ty:Type) (json:JsonValue) =
     let write =
         tryWriters
         |> Seq.tryPick(fun tryWrite -> tryWrite ty json)
