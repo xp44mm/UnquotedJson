@@ -1,0 +1,68 @@
+﻿html {
+    font-size: 14px;
+    line-height: 1.25;
+}
+
+body {
+    font-size: 1rem;
+}
+
+h1 {
+    font-size: 2.4rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.6rem;
+}
+
+h4 {
+    font-size: 1.4rem;
+}
+
+h5 {
+    font-size: 1.2rem;
+}
+
+h6 {
+    font-size: 1.1rem;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub, sup {
+    font-size: 75%;
+}
+
+pre,
+code,
+kbd,
+samp {
+    font-size: 1em;
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+    font-size: 1rem;
+}
+
+legend {
+    font-size: 1.5rem;
+}
+
+.full-width {
+    width: calc(100% - 8px);
+}
+
+.inline-full-width {
+    display:inline-block;
+    width: calc(100% - 8px);
+}

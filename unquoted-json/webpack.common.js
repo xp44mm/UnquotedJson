@@ -10,7 +10,6 @@ module.exports = {
 
     resolve: {
         extensions: ['.js', '.json'],
-        modules: [path.resolve(__dirname, 'node_modules')],
     },
 
     module: {

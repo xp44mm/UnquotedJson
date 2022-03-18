@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="HorizDuctInput.fs" />
+    <Compile Include="Controllers\LoggerController.fs" />
+    <Compile Include="Controllers\SampleController.fs" />
+    <Compile Include="Controllers\UnquotedJsonController.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.UnquotedJson" Version="0.0.2" />
+    <PackageReference Include="FSharp.Literals" Version="2.2.9" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="6.0.3" />
+  </ItemGroup>
+
+</Project>

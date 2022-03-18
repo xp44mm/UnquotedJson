@@ -1,0 +1,43 @@
+﻿table {
+    table-layout: fixed;
+    width: 100%;
+    white-space: nowrap;
+    border-collapse: collapse;
+}
+
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+/*
+th {
+    background: darkblue;
+    color: white;
+}
+*/
+
+td, th {
+    text-align: left;
+    padding: 2px 4px;
+    border: solid 1px;
+}
+
+tr:hover {
+    /*color: #212529;*/
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+
+/*
+
+thead th:nth-child(2) {
+    width: 40%;
+}
+
+tr:nth-child(even) {
+    background: lightblue;
+}
+
+*/

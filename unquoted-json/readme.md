@@ -77,24 +77,7 @@ urlquery函数序列化格式采用的是一种单层Form Data格式。
 4. 在输入数据属性都是基元类型时，兼容Form Data格式。所以，可以利用现有的各种form参数查看工具。
 5. 设计原则是，使查询字符串尽可能短。
 
-## Urljson格式
 
-urlquery序列化对象类型的属性时采用urljson格式序列化属性值。
-
-顾名思义，urljson格式类似于JSON格式，不同之处在于：
-
-* 字符串限定符为反引号`` ` ``。代替json格式双引号`"`。
-
-* 字符串中的转义符号仍然是反斜杠。对反引号、控制字符(`\u0000-\u0020`)，空白字符(`\s`)转义，转义方法为：
-
-```
-\` \\ \b \f \n \r \t \v
-\ hexdigit hexdigit
-```
-
-* 属性键字符串的限定符是可选的。除非当属性键包含限定字符，控制字符，空白字符，标点符号时，限定符是必须的。
-
-> 用反引号作为字符串限定符，是因为双引号会被百分号转义为三个字符，增加了url的长度，也增加了阅读难度。
 
 ## urljsonStringify
 
@@ -107,39 +90,6 @@ let obj = {
 }
 let s = urljsonStringify(obj)
 expect(s).toEqual("{a:1,b:true}")
-```
-
-
-
-## urljson格式规范
-
-The grammar can be transcribed as follows:
-
-```
-value : object
-	  | array
-	  | null
-	  | boolean
-	  | number
-	  | string
-	  ;
-object : "{" "}"
-       | "{" fields "}"
-       ;
-fields : field
-	   | fields "," field
-	   ;
-field : key ":" value
-	  ;
-key : string 
-    | identifier
-    ;
-array : "[" "]"
-      | "[" values "]"
-      ;
-values : value
-	   | values "," value
-       ;
 ```
 
 ## 百分号编码
@@ -200,8 +150,8 @@ expect(y).toEqual("a%2B%3D1")
 
 ## 参见
 
-- npm包库`unquoted-json`开源于github，位于xp44mm/unquoted-json仓库。
-- FSharpCompiler.Json是一个NuGet开源json解析库，开源于github，它亦可以解析urljson，位于xp44mm/FSharpCompiler.Json仓库。
-- AspNetCore.FSharpCompilerJson是一个NuGet开源库，开源于github，它将FSharpCompiler.Json整合进入Asp.net，位于xp44mm/AspNetCore.FSharpCompilerJson仓库。
+- npm包库`unquoted-json`开源于github，位于xp44mm/UnquotedJson仓库。
+- `UnqotedJson`是一个NuGet开源json解析库，开源于github，它可以解析json，位于xp44mm/UnquotedJson仓库。
+- `AspNetCore.UnqotedJson`是一个NuGet开源库，开源于github，它将UnqotedJson整合进Asp.net，位于xp44mm/UnquotedJson仓库。
 - 可以应用于Asp.net项目序列化JSON格式，演练教程如下：xp44mm/UrljsonExample
 
