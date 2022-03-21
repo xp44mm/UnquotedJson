@@ -4,16 +4,16 @@ This repository includes the source code of 3 libraries, they are AspNetCore.Unq
 
 ## UnquotedJson
 
-see also [UnquotedJson](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/readme.md)
+see also [UnquotedJson](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson)
 
 ## AspNetCore.UnquotedJson
 
-see also [AspNetCore.UnquotedJson](https://github.com/xp44mm/UnquotedJson/blob/master/AspNetCore.UnquotedJson/readme.md)
+see also [AspNetCore.UnquotedJson](https://github.com/xp44mm/UnquotedJson/blob/master/AspNetCore.UnquotedJson)
 
 ## unquoted-json
 
-see also [unquoted-json](https://github.com/xp44mm/UnquotedJson/blob/master/unquoted-json/readme.md)
+see also [unquoted-json](https://github.com/xp44mm/UnquotedJson/blob/master/unquoted-json)
 
 ## UnquotedJsonExample & UnquotedJsonExample.Major
 
-see also [UnquotedJsonExample](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJsonExample/readme.md)
+see also [UnquotedJsonExample](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJsonExample)
