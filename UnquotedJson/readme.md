@@ -2,7 +2,7 @@
 
 UnquotedJson is a JSON parser. In addition to being able to parse the standard JSON format, UnquotedJson also allows unquoted strings which are keys and/or in values.
 
-The string may be unquoted if a string is unquoted does not cause parsing ambiguity or errors.
+The quote signs of string may be omitted if shorten does not cause parsing ambiguity or errors.
 
 The string must be quoted if a string is unquoted will causes parsing ambiguity or errors.
 
@@ -143,3 +143,15 @@ UnquotedJson can be used for query strings in URLs. When the field is of primiti
 The source see [UrlQuery](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/UrlQuery.fs)
 
 The usage see also [UrlQueryTest.fs](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson.Test/UrlQueryTest.fs)
+
+
+## API
+
+The main structure types are defined as follows:
+
+- The type `JsonValue` see to [JsonValue](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/JsonValue.fs).
+
+- The type `JsonToken` see to [JsonToken](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/JsonToken.fs).
+
+
+

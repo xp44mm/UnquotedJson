@@ -2,10 +2,10 @@
 
 open System
 open System.Reflection
+
 open Microsoft.FSharp.Reflection
 
 open FSharp.Literals
-
 
 let parseFieldDynamic (ty:Type) (txt:string) =
     if txt = "" then
