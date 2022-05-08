@@ -4,46 +4,46 @@ open System
 open System.Text.RegularExpressions
 open FSharp.Idioms
 
-let tokenizeWithPos (inp:string) =
+let tokenize (inp:string) =
     let rec loop (pos:int) (inp:string) =
         seq {
             match inp with
             | "" -> ()
     
-            | Prefix @"\s+" (x,rest) -> 
+            | On(tryMatch(Regex @"^\s+")) (x,rest) -> 
                 let pos = pos + x.Length
                 yield! loop pos rest
 
-            | PrefixChar '{' rest ->
+            | On(tryFirst '{') rest ->
                 yield pos,LBRACE
                 yield! loop (pos+1) rest
 
-            | PrefixChar '}' rest ->
+            | On(tryFirst '}') rest ->
                 yield pos,RBRACE
                 yield! loop (pos+1) rest
 
-            | PrefixChar '[' rest ->
+            | On(tryFirst '[') rest ->
                 yield pos,LBRACK
                 yield! loop (pos+1) rest
 
-            | PrefixChar ']' rest ->
+            | On(tryFirst ']') rest ->
                 yield pos,RBRACK
                 yield! loop (pos+1) rest
 
-            | PrefixChar ',' rest ->
+            | On(tryFirst ',') rest ->
                 yield pos,COMMA
                 yield! loop (pos+1) rest
 
-            | PrefixChar ':' rest ->
+            | On(tryFirst ':') rest ->
                 yield pos,COLON
                 yield! loop (pos+1) rest
 
-            | Prefix """(?:"(\\[\\"bfnrt]|\\u[0-9A-Fa-f]{4}|[^\\"\r\n])*")""" (lexeme,rest) ->
+            | On(tryMatch(Regex @"^""(\\[^\u0000-\u001F\u007F]|[^\\""\u0000-\u001F\u007F])*""")) (lexeme,rest) ->
                 yield pos,QUOTED(Quotation.unquote lexeme)
                 let pos = pos + lexeme.Length
                 yield! loop pos rest
 
-            | Prefix @"[^,:{}[\]""]+(?<=\S)" (lexeme,rest) ->
+            | On(tryMatch(Regex @"^[^,:{}[\]""]+(?<=\S)")) (lexeme,rest) ->
                 yield pos,UNQUOTED lexeme
                 let pos = pos + lexeme.Length
                 yield! loop pos rest

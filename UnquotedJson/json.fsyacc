@@ -1,6 +1,8 @@
 ﻿%{
 open UnquotedJson
 open UnquotedJson.JsonTokenUtils
+type token = int*JsonToken
+
 %}
 
 value : object   {JsonValue.Object s0}

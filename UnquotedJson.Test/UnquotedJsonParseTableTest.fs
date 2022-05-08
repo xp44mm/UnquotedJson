@@ -69,7 +69,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
             ] |> String.concat "\r\n"
         output.WriteLine(sourceCode)
 
-    [<Fact(Skip="once and for all!")>] // 
+    [<Fact>] // (Skip="once and for all!")
     member _.``5-generate parsing table``() =
         let name = "JsonParseTable"
         let moduleName = $"UnquotedJson.{name}"

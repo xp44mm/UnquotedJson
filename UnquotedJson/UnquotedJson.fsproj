@@ -9,8 +9,8 @@
 		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
-		<PackageReleaseNotes>fix bug fromUnquoted. add UrlQuery module</PackageReleaseNotes>
-		<Version>1.0.6</Version>
+		<PackageReleaseNotes>refac</PackageReleaseNotes>
+		<Version>1.0.7</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageTags>unquoted; JSON; parser</PackageTags>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
@@ -54,7 +54,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="FSharp.Literals" Version="2.2.9" />
-		<PackageReference Include="FslexFsyacc.Runtime" Version="1.2.6" />
+		<PackageReference Include="FslexFsyacc.Runtime" Version="1.2.9" />
 	</ItemGroup>
 
 	<ItemGroup>
