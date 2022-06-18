@@ -9,8 +9,8 @@
 		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
-		<PackageReleaseNotes>refac</PackageReleaseNotes>
-		<Version>1.0.7</Version>
+		<PackageReleaseNotes>update to parser.next</PackageReleaseNotes>
+		<Version>1.0.8</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageTags>unquoted; JSON; parser</PackageTags>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
@@ -39,6 +39,7 @@
 		<Compile Include="Converters\FSharpConverter.fs" />
 		<Compile Include="JsonToken.fs" />
 		<Compile Include="JsonTokenUtils.fs" />
+		<Compile Include="JsonTokenizerUtils.fs" />
 		<None Include="json.fsyacc" />
 		<Compile Include="JsonParseTable.fs" />
 
@@ -54,11 +55,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="FSharp.Literals" Version="2.2.9" />
-		<PackageReference Include="FslexFsyacc.Runtime" Version="1.2.9" />
+		<PackageReference Include="FslexFsyacc.Runtime" Version="1.2.17" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Update="FSharp.Core" Version="6.0.3" />
+		<PackageReference Update="FSharp.Core" Version="6.0.5" />
 	</ItemGroup>
 
 </Project>

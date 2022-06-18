@@ -1,7 +1,8 @@
 ﻿module UnquotedJson.JsonTokenUtils
-open System
 
+open System
 open System.Text.RegularExpressions
+
 open FSharp.Idioms
 
 let tokenize (inp:string) =
@@ -53,7 +54,6 @@ let tokenize (inp:string) =
     
     loop 0 inp
 
-
 let getTag(pos,token) = 
     match token with
     | COMMA       -> ","
@@ -64,14 +64,14 @@ let getTag(pos,token) =
     | RBRACE      -> "}"
     | QUOTED   _  -> "QUOTED"
     | UNQUOTED _  -> "UNQUOTED"
-
+    | WS _ -> "WS"
 let getLexeme(pos,token) = 
     match token with
     | QUOTED x -> box x
     | UNQUOTED x -> box x
     | _ -> null
 
-// get value from unquoted
+/// get value from unquoted
 let fromUnquoted str = 
     if str = "null" then
         JsonValue.Null
