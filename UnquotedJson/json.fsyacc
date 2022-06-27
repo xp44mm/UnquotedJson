@@ -1,8 +1,8 @@
 ﻿%{
+open FslexFsyacc.Runtime
 open UnquotedJson
 open UnquotedJson.JsonTokenUtils
 type token = int*JsonToken
-
 %}
 
 value : object   {JsonValue.Object s0}
@@ -21,8 +21,8 @@ fields :            field {[s0]}
 
 field : key ":" value {s0,s2}
 
-key : QUOTED   { s0}
-	| UNQUOTED { s0}
+key : QUOTED   {s0}
+	| UNQUOTED {s0}
 
 values :            value {[s0]}
 	   | values "," value {s2::s0}
