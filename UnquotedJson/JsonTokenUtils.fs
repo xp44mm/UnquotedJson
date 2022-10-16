@@ -4,6 +4,7 @@ open System
 open System.Text.RegularExpressions
 
 open FSharp.Idioms
+open FSharp.Idioms.RegularExpressions
 
 let tokenize (inp:string) =
     let rec loop (pos:int) (inp:string) =
@@ -65,6 +66,7 @@ let getTag(pos,token) =
     | QUOTED   _  -> "QUOTED"
     | UNQUOTED _  -> "UNQUOTED"
     | WS _ -> "WS"
+
 let getLexeme(pos,token) = 
     match token with
     | QUOTED x -> box x
@@ -73,19 +75,23 @@ let getLexeme(pos,token) =
 
 /// get value from unquoted
 let fromUnquoted str = 
-    if str = "null" then
-        JsonValue.Null
-    elif str = "false" then
-        JsonValue.False
-    elif str = "true" then
-        JsonValue.True
-    elif Regex.IsMatch(str, @"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?$") then
+    //if str = "null" then
+    //    JsonValue.Null
+    //elif str = "false" then
+    //    JsonValue.False
+    //elif str = "true" then
+    //    JsonValue.True
+    //elif Regex.IsMatch(str, @"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?$") then
+    //    JsonValue.Number(Double.Parse str)
+    //else
+    //    JsonValue.String str
+    match str with
+    | "null" -> JsonValue.Null
+    | "true" -> JsonValue.True
+    | "false" -> JsonValue.False
+    | Search(Regex(@"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?$")) _ ->
         JsonValue.Number(Double.Parse str)
-    else
-        JsonValue.String str
-
-
-
+    | _ -> JsonValue.String str
 
 
 

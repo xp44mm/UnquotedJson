@@ -1,14 +1,11 @@
 ﻿%{
-open FslexFsyacc.Runtime
 open UnquotedJson
-open UnquotedJson.JsonTokenUtils
-type token = int*JsonToken
 %}
 
 value : object   {JsonValue.Object s0}
 	  | array    {JsonValue.Array  s0}
 	  | QUOTED   {JsonValue.String s0}
-	  | UNQUOTED {fromUnquoted s0}
+	  | UNQUOTED {JsonTokenUtils.fromUnquoted s0}
 
 object : "{"        "}"	 {[]}
        | "{" fields "}"	 {List.rev s1}
@@ -29,12 +26,12 @@ values :            value {[s0]}
 
 %%
 
-QUOTED   : "string"
-UNQUOTED : "string"
-key      : "string"
+QUOTED   : string
+UNQUOTED : string
+key      : string
 array    : "JsonValue list"
 field    : "string*JsonValue"
 fields   : "list<string*JsonValue>"
 object   : "list<string*JsonValue>"
-value    : "JsonValue"
+value    : JsonValue
 values   : "JsonValue list"

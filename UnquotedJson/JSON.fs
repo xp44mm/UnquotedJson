@@ -1,15 +1,30 @@
 ﻿module UnquotedJson.JSON
+open UnquotedJson
 
 open System
 open FSharp.Literals.Literal
 
 open FslexFsyacc.Runtime
 
+
+let parser = 
+    Parser<int*JsonToken>(
+        JsonParseTable.rules,
+        JsonParseTable.actions,
+        JsonParseTable.closures,JsonTokenUtils.getTag,JsonTokenUtils.getLexeme)
+
+//let unboxRoot = unbox<JsonValue>
+
+let parseTokens(tokens:seq<int*JsonToken>) =
+    tokens
+    |> parser.parse
+    |> JsonParseTable.unboxRoot
+
+
 ///
 let parse(text:string) = 
     if String.IsNullOrWhiteSpace text then
         failwith "empty string is illeagal json string."
-    let parser = JsonParseTable.parser
     let mutable states = [0,null]
 
     let stringifyStates() =
@@ -41,7 +56,7 @@ let parse(text:string) =
     | None -> ()
 
     match states with
-    |[(1,lxm);0,null] -> lxm |> unbox<JsonValue>
+    |[(1,lxm);0,null] -> lxm |> JsonParseTable.unboxRoot
     | _ -> failwith $"states:{stringifyStates()}\r\ntok:EOF"
 
 ///
