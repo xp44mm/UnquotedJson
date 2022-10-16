@@ -7,6 +7,7 @@ open System.IO
 open System.Text
 open System.Text.RegularExpressions
 
+open FSharp.Idioms
 open FSharp.Literals
 open FSharp.xUnit
 open FslexFsyacc.Fsyacc
@@ -26,7 +27,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
     let fsyacc = FlatFsyaccFile.fromRaw rawFsyacc
 
     [<Fact>]
-    member _.``1 - 显示冲突状态的冲突项目``() =
+    member _.``001 - 显示冲突状态的冲突项目``() =
         let collection =
             AmbiguousCollection.create <| fsyacc.getMainProductions()
         let conflicts =
@@ -36,7 +37,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
 
 
     [<Fact>]
-    member _.``2 - 汇总冲突的产生式``() =
+    member _.``002 - 汇总冲突的产生式``() =
         let collection =
             AmbiguousCollection.create  <| fsyacc.getMainProductions()
         let conflicts =
@@ -55,7 +56,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
 
 
     [<Fact>]
-    member _.``3 - print the template of type annotaitions``() =
+    member _.``003 - print the template of type annotaitions``() =
         let grammar = Grammar.from  <| fsyacc.getMainProductions()
 
         let symbols = 
@@ -69,8 +70,8 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
             ] |> String.concat "\r\n"
         output.WriteLine(sourceCode)
 
-    [<Fact>] // (Skip="once and for all!")
-    member _.``5-generate parsing table``() =
+    [<Fact(Skip="once and for all!")>] // 
+    member _.``005 - generate parsing table``() =
         let name = "JsonParseTable"
         let moduleName = $"UnquotedJson.{name}"
 
@@ -83,7 +84,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
         output.WriteLine("output path:"+outputDir)
 
     [<Fact>]
-    member _.``9 - valid ParseTable``() =
+    member _.``009 - valid ParseTable``() =
         let src = fsyacc.toFsyaccParseTableFile()
 
         Should.equal src.actions JsonParseTable.actions
@@ -104,5 +105,10 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
         Should.equal headerFromFsyacc header
         Should.equal semansFsyacc semans
 
-
+    [<Fact>]
+    member _.``101 - format norm file test``() =
+        let startSymbol = fsyacc.rules.Head |> Triple.first |> List.head
+        show startSymbol
+        let fsyacc = fsyacc.start(startSymbol,Set.empty).toRaw()
+        output.WriteLine(fsyacc.render())
 

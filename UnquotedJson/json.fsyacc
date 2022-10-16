@@ -1,37 +1,36 @@
 ﻿%{
 open UnquotedJson
 %}
-
-value : object   {JsonValue.Object s0}
-	  | array    {JsonValue.Array  s0}
-	  | QUOTED   {JsonValue.String s0}
-	  | UNQUOTED {JsonTokenUtils.fromUnquoted s0}
-
-object : "{"        "}"	 {[]}
-       | "{" fields "}"	 {List.rev s1}
-
-array  : "["        "]" {[]}
-       | "[" values "]"	{List.rev s1}
-
-fields :            field {[s0]}
-	   | fields "," field {s2::s0}
-
-field : key ":" value {s0,s2}
-
-key : QUOTED   {s0}
-	| UNQUOTED {s0}
-
-values :            value {[s0]}
-	   | values "," value {s2::s0}
-
+value :
+    | object {JsonValue.Object s0}
+    | array {JsonValue.Array  s0}
+    | QUOTED {JsonValue.String s0}
+    | UNQUOTED {JsonTokenUtils.fromUnquoted s0}
+object :
+    | "{" "}" {[]}
+    | "{" field+ "}" {List.rev s1}
+field+ :
+    | field {[s0]}
+    | field+ "," field {s2::s0}
+field :
+    | key ":" value {s0,s2}
+key :
+    | QUOTED {s0}
+    | UNQUOTED {s0}
+array :
+    | "[" "]" {[]}
+    | "[" value+ "]" {List.rev s1}
+value+ :
+    | value {[s0]}
+    | value+ "," value {s2::s0}
 %%
-
-QUOTED   : string
+QUOTED : string
 UNQUOTED : string
-key      : string
-array    : "JsonValue list"
-field    : "string*JsonValue"
-fields   : "list<string*JsonValue>"
-object   : "list<string*JsonValue>"
-value    : JsonValue
-values   : "JsonValue list"
+key : string
+array : "JsonValue list"
+field : "string*JsonValue"
+field+ : "list<string*JsonValue>"
+object : "list<string*JsonValue>"
+value : JsonValue
+value+ : "JsonValue list"
+

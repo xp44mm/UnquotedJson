@@ -1,6 +1,6 @@
 module UnquotedJson.JsonParseTable
-let actions = [["QUOTED",18;"UNQUOTED",19;"[",2;"array",20;"object",21;"value",1;"{",15];["",0];["QUOTED",18;"UNQUOTED",19;"[",2;"]",3;"array",20;"object",21;"value",22;"values",4;"{",15];["",-1;",",-1;"]",-1;"}",-1];[",",23;"]",5];["",-2;",",-2;"]",-2;"}",-2];[":",7];["QUOTED",18;"UNQUOTED",19;"[",2;"array",20;"object",21;"value",8;"{",15];[",",-3;"}",-3];[",",-4;"}",-4];[",",11;"}",16];["QUOTED",13;"UNQUOTED",14;"field",12;"key",6];[",",-5;"}",-5];[":",-6];[":",-7];["QUOTED",13;"UNQUOTED",14;"field",9;"fields",10;"key",6;"}",17];["",-8;",",-8;"]",-8;"}",-8];["",-9;",",-9;"]",-9;"}",-9];["",-10;",",-10;"]",-10;"}",-10];["",-11;",",-11;"]",-11;"}",-11];["",-12;",",-12;"]",-12;"}",-12];["",-13;",",-13;"]",-13;"}",-13];[",",-14;"]",-14];["QUOTED",18;"UNQUOTED",19;"[",2;"array",20;"object",21;"value",24;"{",15];[",",-15;"]",-15]]
-let closures = [[0,0,[];-1,0,[];-2,0,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[];-12,0,[];-13,0,[]];[0,1,[""]];[-1,0,[];-1,1,[];-2,0,[];-2,1,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[];-12,0,[];-13,0,[];-14,0,[];-15,0,[]];[-1,2,["";",";"]";"}"]];[-2,2,[];-15,1,[]];[-2,3,["";",";"]";"}"]];[-3,1,[]];[-1,0,[];-2,0,[];-3,2,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[];-12,0,[];-13,0,[]];[-3,3,[",";"}"]];[-4,1,[",";"}"]];[-5,1,[];-8,2,[]];[-3,0,[];-5,2,[];-6,0,[];-7,0,[]];[-5,3,[",";"}"]];[-6,1,[":"]];[-7,1,[":"]];[-3,0,[];-4,0,[];-5,0,[];-6,0,[];-7,0,[];-8,1,[];-9,1,[]];[-8,3,["";",";"]";"}"]];[-9,2,["";",";"]";"}"]];[-10,1,["";",";"]";"}"]];[-11,1,["";",";"]";"}"]];[-12,1,["";",";"]";"}"]];[-13,1,["";",";"]";"}"]];[-14,1,[",";"]"]];[-1,0,[];-2,0,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[];-12,0,[];-13,0,[];-15,2,[]];[-15,3,[",";"]"]]]
+let actions = [["QUOTED",15;"UNQUOTED",16;"[",2;"array",17;"object",18;"value",1;"{",11];["",0];["QUOTED",15;"UNQUOTED",16;"[",2;"]",3;"array",17;"object",18;"value",22;"{",11;"{value+}",4];["",-1;",",-1;"]",-1;"}",-1];[",",23;"]",5];["",-2;",",-2;"]",-2;"}",-2];[":",7];["QUOTED",15;"UNQUOTED",16;"[",2;"array",17;"object",18;"value",8;"{",11];[",",-3;"}",-3];[":",-4];[":",-5];["QUOTED",9;"UNQUOTED",10;"field",19;"key",6;"{field+}",12;"}",14];[",",20;"}",13];["",-6;",",-6;"]",-6;"}",-6];["",-7;",",-7;"]",-7;"}",-7];["",-8;",",-8;"]",-8;"}",-8];["",-9;",",-9;"]",-9;"}",-9];["",-10;",",-10;"]",-10;"}",-10];["",-11;",",-11;"]",-11;"}",-11];[",",-12;"}",-12];["QUOTED",9;"UNQUOTED",10;"field",21;"key",6];[",",-13;"}",-13];[",",-14;"]",-14];["QUOTED",15;"UNQUOTED",16;"[",2;"array",17;"object",18;"value",24;"{",11];[",",-15;"]",-15]]
+let closures = [[0,0,[];-1,0,[];-2,0,[];-6,0,[];-7,0,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[]];[0,1,[""]];[-1,0,[];-1,1,[];-2,0,[];-2,1,[];-6,0,[];-7,0,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[];-14,0,[];-15,0,[]];[-1,2,["";",";"]";"}"]];[-2,2,[];-15,1,[]];[-2,3,["";",";"]";"}"]];[-3,1,[]];[-1,0,[];-2,0,[];-3,2,[];-6,0,[];-7,0,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[]];[-3,3,[",";"}"]];[-4,1,[":"]];[-5,1,[":"]];[-3,0,[];-4,0,[];-5,0,[];-6,1,[];-7,1,[];-12,0,[];-13,0,[]];[-6,2,[];-13,1,[]];[-6,3,["";",";"]";"}"]];[-7,2,["";",";"]";"}"]];[-8,1,["";",";"]";"}"]];[-9,1,["";",";"]";"}"]];[-10,1,["";",";"]";"}"]];[-11,1,["";",";"]";"}"]];[-12,1,[",";"}"]];[-3,0,[];-4,0,[];-5,0,[];-13,2,[]];[-13,3,[",";"}"]];[-14,1,[",";"]"]];[-1,0,[];-2,0,[];-6,0,[];-7,0,[];-8,0,[];-9,0,[];-10,0,[];-11,0,[];-15,2,[]];[-15,3,[",";"]"]]]
 open UnquotedJson
 let rules:(string list*(obj list->obj))list = [
     ["value";"object"],fun(ss:obj list)->
@@ -27,26 +27,17 @@ let rules:(string list*(obj list->obj))list = [
         let result:list<string*JsonValue> =
             []
         box result
-    ["object";"{";"fields";"}"],fun(ss:obj list)->
+    ["object";"{";"{field+}";"}"],fun(ss:obj list)->
         let s1 = unbox<list<string*JsonValue>> ss.[1]
         let result:list<string*JsonValue> =
             List.rev s1
         box result
-    ["array";"[";"]"],fun(ss:obj list)->
-        let result:JsonValue list =
-            []
-        box result
-    ["array";"[";"values";"]"],fun(ss:obj list)->
-        let s1 = unbox<JsonValue list> ss.[1]
-        let result:JsonValue list =
-            List.rev s1
-        box result
-    ["fields";"field"],fun(ss:obj list)->
+    ["{field+}";"field"],fun(ss:obj list)->
         let s0 = unbox<string*JsonValue> ss.[0]
         let result:list<string*JsonValue> =
             [s0]
         box result
-    ["fields";"fields";",";"field"],fun(ss:obj list)->
+    ["{field+}";"{field+}";",";"field"],fun(ss:obj list)->
         let s0 = unbox<list<string*JsonValue>> ss.[0]
         let s2 = unbox<string*JsonValue> ss.[2]
         let result:list<string*JsonValue> =
@@ -68,12 +59,21 @@ let rules:(string list*(obj list->obj))list = [
         let result:string =
             s0
         box result
-    ["values";"value"],fun(ss:obj list)->
+    ["array";"[";"]"],fun(ss:obj list)->
+        let result:JsonValue list =
+            []
+        box result
+    ["array";"[";"{value+}";"]"],fun(ss:obj list)->
+        let s1 = unbox<JsonValue list> ss.[1]
+        let result:JsonValue list =
+            List.rev s1
+        box result
+    ["{value+}";"value"],fun(ss:obj list)->
         let s0 = unbox<JsonValue> ss.[0]
         let result:JsonValue list =
             [s0]
         box result
-    ["values";"values";",";"value"],fun(ss:obj list)->
+    ["{value+}";"{value+}";",";"value"],fun(ss:obj list)->
         let s0 = unbox<JsonValue list> ss.[0]
         let s2 = unbox<JsonValue> ss.[2]
         let result:JsonValue list =
