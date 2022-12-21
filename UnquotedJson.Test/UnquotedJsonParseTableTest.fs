@@ -12,6 +12,7 @@ open FSharp.Literals
 open FSharp.xUnit
 open FslexFsyacc.Fsyacc
 open FslexFsyacc.Yacc
+open FslexFsyacc.Runtime
 
 type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
     let show res =
@@ -26,65 +27,83 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
     let rawFsyacc = RawFsyaccFile.parse text
     let fsyacc = FlatFsyaccFile.fromRaw rawFsyacc
 
-    [<Fact>]
-    member _.``001 - 显示冲突状态的冲突项目``() =
-        let collection =
-            AmbiguousCollection.create <| fsyacc.getMainProductions()
-        let conflicts =
-            collection.filterConflictedClosures()
-        //Should.equal y conflicts
-        show conflicts
-
+    let parseTblName = "JsonParseTable"
+    let parseTblPath = Path.Combine(locatePath, $"{parseTblName}.fs")
 
     [<Fact>]
-    member _.``002 - 汇总冲突的产生式``() =
-        let collection =
-            AmbiguousCollection.create  <| fsyacc.getMainProductions()
-        let conflicts =
-            collection.filterConflictedClosures()
+    member _.``02 - list all tokens``() =
+        let grammar =
+            fsyacc.getMainProductions()
+            |> Grammar.from
+
+        let tokens = grammar.terminals
+        let res =set [",";":";"QUOTED";"UNQUOTED";"[";"]";"{";"}"]
+
+        //show tokens
+        Should.equal tokens res
+
+    [<Fact>]
+    member _.``03 - precedence Of Productions``() =
+        let collection = 
+            fsyacc.getMainProductions() 
+            |> AmbiguousCollection.create
+
+        let terminals = 
+            collection.grammar.terminals
 
         let productions =
-            AmbiguousCollection.gatherProductions conflicts
-        // production -> %prec
-        let pprods =
-            ProductionUtils.precedenceOfProductions collection.grammar.terminals productions
-        //优先级应该据此结果给出，不能少，也不应该多。
-        let y = [
-            ]
+            collection.collectConflictedProductions()
 
-        Should.equal y pprods
+        let pprods = 
+            ProductionUtils.precedenceOfProductions terminals productions
 
+        Should.equal [] pprods
 
     [<Fact>]
-    member _.``003 - print the template of type annotaitions``() =
-        let grammar = Grammar.from  <| fsyacc.getMainProductions()
+    member _.``04 - list all states``() =
+        let collection =
+            fsyacc.getMainProductions()
+            |> AmbiguousCollection.create
+        
+        let text = collection.render()
+        output.WriteLine(text)
 
-        let symbols = 
-            grammar.symbols 
-            |> Set.filter(fun x -> Regex.IsMatch(x,@"^\w+$"))
+    [<Fact>]
+    member _.``05 - list the type annotaitions``() =
+        let grammar =
+            fsyacc.getMainProductions()
+            |> Grammar.from
 
-        let sourceCode = 
+        let sourceCode =
             [
-                for i in symbols do
-                    i + " \"\";"
-            ] |> String.concat "\r\n"
+                "// Do not list symbols whose return value is always `null`"
+                "// terminals: ref to the returned type of getLexeme"
+                for i in grammar.terminals do
+                    let i = RenderUtils.renderSymbol i
+                    i + " : \"\""
+                "\r\n// nonterminals"
+                for i in grammar.nonterminals do
+                    let i = RenderUtils.renderSymbol i
+                    i + " : \"\""
+            ] 
+            |> String.concat "\r\n"
+
         output.WriteLine(sourceCode)
 
+
     [<Fact(Skip="once and for all!")>] // 
-    member _.``005 - generate parsing table``() =
-        let name = "JsonParseTable"
-        let moduleName = $"UnquotedJson.{name}"
+    member _.``06 - generate parsing table``() =
+        let moduleName = $"UnquotedJson.{parseTblName}"
 
-        let parseTbl = fsyacc.toFsyaccParseTableFile()
         //解析表数据
+        let parseTbl = fsyacc.toFsyaccParseTableFile()
         let fsharpCode = parseTbl.generateModule(moduleName)
-        let outputDir = Path.Combine(locatePath, $"{name}.fs")
 
-        File.WriteAllText(outputDir,fsharpCode)
-        output.WriteLine("output path:"+outputDir)
+        File.WriteAllText(parseTblPath,fsharpCode)
+        output.WriteLine("output path:"+parseTblPath)
 
     [<Fact>]
-    member _.``009 - valid ParseTable``() =
+    member _.``07 - valid ParseTable``() =
         let src = fsyacc.toFsyaccParseTableFile()
 
         Should.equal src.actions JsonParseTable.actions
@@ -98,15 +117,14 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
             FSharp.Compiler.SyntaxTreeX.SourceCodeParser.semansFromMappers mappers
 
         let header,semans =
-            let filePath = Path.Combine(locatePath, "JsonParseTable.fs")
-            File.ReadAllText(filePath, Encoding.UTF8)
+            File.ReadAllText(parseTblPath, Encoding.UTF8)
             |> FSharp.Compiler.SyntaxTreeX.SourceCodeParser.getHeaderSemansFromFSharp 2
 
         Should.equal headerFromFsyacc header
         Should.equal semansFsyacc semans
 
     [<Fact>]
-    member _.``101 - format norm file test``() =
+    member _.``08 - format norm file test``() =
         let startSymbol = fsyacc.rules.Head |> Triple.first |> List.head
         show startSymbol
         let fsyacc = fsyacc.start(startSymbol,Set.empty).toRaw()
