@@ -24,96 +24,131 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
     let locatePath = Path.Combine(solutionPath,@"UnquotedJson")
     let filePath = Path.Combine(locatePath, "json.fsyacc")
     let text = File.ReadAllText(filePath)
-    let rawFsyacc = RawFsyaccFile.parse text
-    let fsyacc = FlatFsyaccFile.fromRaw rawFsyacc
+    //let rawFsyacc = RawFsyaccFile.parse text
+    //let fsyacc = FlatFsyaccFile.fromRaw rawFsyacc
 
     let parseTblName = "JsonParseTable"
+    let parseTblModule = $"UnquotedJson.{parseTblName}"
     let parseTblPath = Path.Combine(locatePath, $"{parseTblName}.fs")
 
+    let grammar text =
+        text
+        |> FlatFsyaccFileUtils.parse
+        |> FlatFsyaccFileUtils.toGrammar
+
+    let ambiguousCollection text =
+        text
+        |> FlatFsyaccFileUtils.parse
+        |> FlatFsyaccFileUtils.toAmbiguousCollection
+
+    //解析表数据
+    let parseTbl text = 
+        text
+        |> FlatFsyaccFileUtils.parse
+        |> FlatFsyaccFileUtils.toFsyaccParseTableFile
+
+    [<Fact>]
+    member _.``01 - norm fsyacc file``() =
+        let fsyacc = 
+            text
+            |> FlatFsyaccFileUtils.parse
+
+        let s0 = 
+            fsyacc.rules
+            |> FlatFsyaccFileRule.getStartSymbol
+
+        let src = 
+            fsyacc.start(s0, Set.empty)
+            |> RawFsyaccFileUtils.fromFlat
+            |> RawFsyaccFileUtils.render
+
+        output.WriteLine(src)
     [<Fact>]
     member _.``02 - list all tokens``() =
-        let grammar =
-            fsyacc.getMainProductions()
-            |> Grammar.from
-
-        let tokens = grammar.terminals
-        let res =set [",";":";"QUOTED";"UNQUOTED";"[";"]";"{";"}"]
-
-        //show tokens
-        Should.equal tokens res
+        let grammar = grammar text
+        let y = set [",";":";"QUOTED";"UNQUOTED";"[";"]";"{";"}"]
+        show grammar.terminals
+        Should.equal y grammar.terminals
+        
+    [<Fact>]
+    member _.``03 - list all states``() =
+        let collection = ambiguousCollection text
+        
+        let src = collection.render()
+        output.WriteLine(src)
 
     [<Fact>]
-    member _.``03 - precedence Of Productions``() =
-        let collection = 
-            fsyacc.getMainProductions() 
-            |> AmbiguousCollection.create
+    member _.``04 - precedence Of Productions``() =
+        let collection = ambiguousCollection text
 
-        let terminals = 
-            collection.grammar.terminals
-
-        let productions =
+        let productions = 
             collection.collectConflictedProductions()
 
-        let pprods = 
-            ProductionUtils.precedenceOfProductions terminals productions
+        // production -> %prec
+        let pprods =
+            ProductionUtils.precedenceOfProductions collection.grammar.terminals productions
 
-        Should.equal [] pprods
+        //优先级应该据此结果给出，不能少，也不应该多。
+        let y = []
 
-    [<Fact>]
-    member _.``04 - list all states``() =
-        let collection =
-            fsyacc.getMainProductions()
-            |> AmbiguousCollection.create
-        
-        let text = collection.render()
-        output.WriteLine(text)
+        Should.equal y pprods
 
     [<Fact>]
-    member _.``05 - list the type annotaitions``() =
-        let grammar =
-            fsyacc.getMainProductions()
-            |> Grammar.from
+    member _.``05 - list declarations``() =
+        let grammar = grammar text
+
+        let terminals =
+            grammar.terminals
+            |> Seq.map RenderUtils.renderSymbol
+            |> String.concat " "
+
+        let nonterminals =
+            grammar.nonterminals
+            |> Seq.map RenderUtils.renderSymbol
+            |> String.concat " "
 
         let sourceCode =
             [
                 "// Do not list symbols whose return value is always `null`"
-                "// terminals: ref to the returned type of getLexeme"
-                for i in grammar.terminals do
-                    let i = RenderUtils.renderSymbol i
-                    i + " : \"\""
-                "\r\n// nonterminals"
-                for i in grammar.nonterminals do
-                    let i = RenderUtils.renderSymbol i
-                    i + " : \"\""
+                ""
+                "// terminals: ref to the returned type of `getLexeme`"
+                "%type<> " + terminals
+                ""
+                "// nonterminals"
+                "%type<> " + nonterminals
             ] 
             |> String.concat "\r\n"
 
         output.WriteLine(sourceCode)
 
 
-    [<Fact(Skip="once and for all!")>] // 
-    member _.``06 - generate parsing table``() =
-        let moduleName = $"UnquotedJson.{parseTblName}"
+    [<Fact()>] // Skip="once for all!"
+    member _.``06 - generate Fsyacc2ParseTable``() =
+        let parseTbl = parseTbl text
 
-        //解析表数据
-        let parseTbl = fsyacc.toFsyaccParseTableFile()
-        let fsharpCode = parseTbl.generateModule(moduleName)
-
-        File.WriteAllText(parseTblPath,fsharpCode)
-        output.WriteLine("output path:"+parseTblPath)
+        let fsharpCode = parseTbl.generateModule(parseTblModule)
+        File.WriteAllText(parseTblPath,fsharpCode,Encoding.UTF8)
+        output.WriteLine("output fsyacc:"+parseTblPath)
 
     [<Fact>]
     member _.``07 - valid ParseTable``() =
-        let src = fsyacc.toFsyaccParseTableFile()
+        let parseTbl = parseTbl text
 
-        Should.equal src.actions JsonParseTable.actions
-        Should.equal src.closures JsonParseTable.closures
+        Should.equal parseTbl.actions JsonParseTable.actions
+        Should.equal parseTbl.closures JsonParseTable.closures
+
+        let prodsFsyacc =
+            List.map fst parseTbl.rules
+
+        let prodsParseTable =
+            List.map fst JsonParseTable.rules
+        Should.equal prodsFsyacc prodsParseTable
 
         let headerFromFsyacc =
-            FSharp.Compiler.SyntaxTreeX.Parser.getDecls("header.fsx",src.header)
+            FSharp.Compiler.SyntaxTreeX.Parser.getDecls("header.fsx",parseTbl.header)
 
         let semansFsyacc =
-            let mappers = src.generateMappers()
+            let mappers = parseTbl.generateMappers()
             FSharp.Compiler.SyntaxTreeX.SourceCodeParser.semansFromMappers mappers
 
         let header,semans =
@@ -122,11 +157,4 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
 
         Should.equal headerFromFsyacc header
         Should.equal semansFsyacc semans
-
-    [<Fact>]
-    member _.``08 - format norm file test``() =
-        let startSymbol = fsyacc.rules.Head |> Triple.first |> List.head
-        show startSymbol
-        let fsyacc = fsyacc.start(startSymbol,Set.empty).toRaw()
-        output.WriteLine(fsyacc.render())
 

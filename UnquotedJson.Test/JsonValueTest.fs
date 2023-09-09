@@ -122,7 +122,7 @@ type JsonValueTest(output:ITestOutputHelper) =
             |> JSON.stringifyNormalJson
 
         show y
-
+        Should.equal y n
     [<Fact>]
     member _.``parse normal json``() =
         let n = """{"0":{"index":0,"license":"t","nameSID":"n","image":"img:left","descriptionSID":"t","category":"r"}}"""
@@ -130,7 +130,8 @@ type JsonValueTest(output:ITestOutputHelper) =
         let y = 
             n
             |> JSON.parse
-            |> JSON.stringifyUnquotedJson
 
         show y
+        Should.equal y 
+        <| JsonValue.Object ["0",JsonValue.Object ["index",JsonValue.Number 0.0;"license",JsonValue.String "t";"nameSID",JsonValue.String "n";"image",JsonValue.String "img:left";"descriptionSID",JsonValue.String "t";"category",JsonValue.String "r"]]
 

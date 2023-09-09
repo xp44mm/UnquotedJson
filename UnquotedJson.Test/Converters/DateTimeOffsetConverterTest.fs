@@ -14,7 +14,7 @@ type DateTimeOffsetConverterTest(output: ITestOutputHelper) =
         let x = DateTimeOffset(2021,2,11,9,2,18,0,TimeSpan(0,8,0,0,0))
         let y = serialize x
         //output.WriteLine(Render.stringify y)
-        Should.equal y <| "\"2021/2/11 9:02:18 +08:00\""
+        Should.equal y <| "\"2021-02-11 09:02:18 +08:00\""
 
     [<Fact>]
     member _.``deserialize DateTimeOffset``() =
@@ -28,7 +28,7 @@ type DateTimeOffsetConverterTest(output: ITestOutputHelper) =
         let x = DateTimeOffset(2021,2,11,9,2,18,0,TimeSpan(0,8,0,0,0))
         let y = JSON.read x
         //output.WriteLine(Render.stringify y)
-        Should.equal y <| JsonValue.String "2021/2/11 9:02:18 +08:00"
+        Should.equal y <| JsonValue.String "2021-02-11 09:02:18 +08:00"
 
     [<Fact>]
     member _.``write DateTimeOffset``() =

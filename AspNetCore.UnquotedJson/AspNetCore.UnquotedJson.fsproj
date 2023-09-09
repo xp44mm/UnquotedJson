@@ -10,11 +10,11 @@
 		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
-		<PackageReleaseNotes>first version</PackageReleaseNotes>
+		<PackageReleaseNotes>update nuget</PackageReleaseNotes>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>0.0.2</Version>
+		<Version>0.0.3</Version>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
@@ -32,7 +32,7 @@
 		</None>
 		<PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
 		<ProjectReference Include="..\UnquotedJson\UnquotedJson.fsproj" />
-		<PackageReference Update="FSharp.Core" Version="7.0.0" />
+		<PackageReference Update="FSharp.Core" Version="7.0.400" />
 	</ItemGroup>
 
 

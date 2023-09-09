@@ -4,87 +4,121 @@ open System
 open System.Text.RegularExpressions
 
 open FSharp.Idioms
+open FSharp.Idioms.ActivePatterns
 open FSharp.Idioms.RegularExpressions
 
-let tokenize (inp:string) =
-    let rec loop (pos:int) (inp:string) =
+open FslexFsyacc.Runtime
+
+let tokenize (pos:int) (inp:string) =
+    let rec loop (i:int) =
         seq {
-            match inp with
+            match inp.[i-pos..] with
             | "" -> ()
     
-            | On(tryMatch(Regex @"^\s+")) (x,rest) -> 
-                let pos = pos + x.Length
-                yield! loop pos rest
+            | Rgx @"^\s+" x -> 
+                let pos = i + x.Length
+                yield! loop pos
 
-            | On(tryFirst '{') rest ->
-                yield pos,LBRACE
-                yield! loop (pos+1) rest
+            | Rgx @"^""(\\[^\u0000-\u001F\u007F]|[^\\""\u0000-\u001F\u007F])*""" lexeme ->
+                let postok = {
+                    index = i
+                    length = lexeme.Length
+                    value = QUOTED(JsonString.unquote lexeme.Value)
+                }
+                yield postok
+                yield! loop postok.nextIndex
 
-            | On(tryFirst '}') rest ->
-                yield pos,RBRACE
-                yield! loop (pos+1) rest
+            | Rgx @"^[^,:{}[\]""]+(?<=\S)" lexeme ->
 
-            | On(tryFirst '[') rest ->
-                yield pos,LBRACK
-                yield! loop (pos+1) rest
+                let postok = {
+                    index = i
+                    length = lexeme.Length
+                    value = UNQUOTED lexeme.Value
+                }
+                yield postok
+                yield! loop postok.nextIndex
 
-            | On(tryFirst ']') rest ->
-                yield pos,RBRACK
-                yield! loop (pos+1) rest
+            | First '{' capt ->
 
-            | On(tryFirst ',') rest ->
-                yield pos,COMMA
-                yield! loop (pos+1) rest
+                let postok = {
+                    index = i
+                    length = 1
+                    value = LBRACE
+                }
+                yield postok
+                yield! loop postok.nextIndex
+            | First '}' _ ->
+                let postok = {
+                    index = i
+                    length = 1
+                    value = RBRACE
+                }
+                yield postok
+                yield! loop postok.nextIndex
 
-            | On(tryFirst ':') rest ->
-                yield pos,COLON
-                yield! loop (pos+1) rest
+            | First '[' _ ->
+                let postok = {
+                    index = i
+                    length = 1
+                    value = LBRACK
+                }
+                yield postok
+                yield! loop postok.nextIndex
 
-            | On(tryMatch(Regex @"^""(\\[^\u0000-\u001F\u007F]|[^\\""\u0000-\u001F\u007F])*""")) (lexeme,rest) ->
-                yield pos,QUOTED(Quotation.unquote lexeme)
-                let pos = pos + lexeme.Length
-                yield! loop pos rest
+            | First ']' _ ->
+                let postok = {
+                    index = i
+                    length = 1
+                    value = RBRACK
+                }
+                yield postok
+                yield! loop postok.nextIndex
 
-            | On(tryMatch(Regex @"^[^,:{}[\]""]+(?<=\S)")) (lexeme,rest) ->
-                yield pos,UNQUOTED lexeme
-                let pos = pos + lexeme.Length
-                yield! loop pos rest
+            | First ',' _ ->
+                let postok = {
+                    index = i
+                    length = 1
+                    value = COMMA
+                }
+                yield postok
+                yield! loop postok.nextIndex
 
-            | _ -> failwithf "tokenizeWithPos:%A" (pos,inp)
+            | First ':' _ ->
+                //yield pos,COLON
+                //yield! loop (pos+1) rest
+                let postok = {
+                    index = i
+                    length = 1
+                    value = COLON
+                }
+                yield postok
+                yield! loop postok.nextIndex
+
+            | rest -> failwith $"tokenize:{rest}"
         }
     
-    loop 0 inp
+    loop pos
 
-let getTag(pos,token) = 
-    match token with
-    | COMMA       -> ","
-    | COLON       -> ":"
-    | LBRACK      -> "["
-    | RBRACK      -> "]"
-    | LBRACE      -> "{"
-    | RBRACE      -> "}"
-    | QUOTED   _  -> "QUOTED"
-    | UNQUOTED _  -> "UNQUOTED"
+let getTag (postok:Position<JsonToken>) = 
+    match postok.value with
+    | COMMA      -> ","
+    | COLON      -> ":"
+    | LBRACK     -> "["
+    | RBRACK     -> "]"
+    | LBRACE     -> "{"
+    | RBRACE     -> "}"
+    | QUOTED   _ -> "QUOTED"
+    | UNQUOTED _ -> "UNQUOTED"
     | WS _ -> "WS"
 
-let getLexeme(pos,token) = 
-    match token with
+let getLexeme (postok:Position<JsonToken>) = 
+    match postok.value with
     | QUOTED x -> box x
     | UNQUOTED x -> box x
     | _ -> null
 
 /// get value from unquoted
 let fromUnquoted str = 
-    //if str = "null" then
-    //    JsonValue.Null
-    //elif str = "false" then
-    //    JsonValue.False
-    //elif str = "true" then
-    //    JsonValue.True
-    //elif Regex.IsMatch(str, @"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?$") then
-    //    JsonValue.Number(Double.Parse str)
-    //else
-    //    JsonValue.String str
     match str with
     | "null" -> JsonValue.Null
     | "true" -> JsonValue.True

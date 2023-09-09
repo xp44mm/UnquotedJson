@@ -24,13 +24,20 @@ value+ :
     | value {[s0]}
     | value+ "," value {s2::s0}
 %%
-QUOTED : string
-UNQUOTED : string
-key : string
-array : "JsonValue list"
-field : "string*JsonValue"
-field+ : "list<string*JsonValue>"
-object : "list<string*JsonValue>"
-value : JsonValue
-value+ : "JsonValue list"
+
+%type<string> QUOTED UNQUOTED key
+%type<JsonValue list> array value+
+%type<string*JsonValue> field
+%type<list<string*JsonValue>> field+ object
+%type<JsonValue> value
+
+// QUOTED : string
+// UNQUOTED : string
+// key : string
+// array : "JsonValue list"
+// field : "string*JsonValue"
+// field+ : "list<string*JsonValue>"
+// object : "list<string*JsonValue>"
+// value : JsonValue
+// value+ : "JsonValue list"
 

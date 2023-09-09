@@ -7,15 +7,15 @@ open System.Text.RegularExpressions
 let stringifyKey x =
     if String.IsNullOrWhiteSpace x || 
         Regex.IsMatch(x,@"[,:{}[\]""\u0000-\u001F\u007F]|(^\u0020)|(\u0020$)") then
-        Quotation.quote x
+        JsonString.quote x
     else
         x
     
 let stringifyStringValue x =
     if x = "true" || x = "false" || x = "null" then
-        Quotation.quote x
+        JsonString.quote x
     elif Regex.IsMatch(x, @"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?$") then
-        Quotation.quote x
+        JsonString.quote x
     else
         stringifyKey x
 
@@ -46,7 +46,7 @@ let rec stringifyNormalJson (json:JsonValue)=
     | JsonValue.Object pairs ->
         pairs
         |> List.map(fun(k,v)->
-           Quotation.quote k + ":" + stringifyNormalJson v
+           JsonString.quote k + ":" + stringifyNormalJson v
         )
         |> String.concat ","
         |> sprintf "{%s}"
@@ -60,5 +60,5 @@ let rec stringifyNormalJson (json:JsonValue)=
     | JsonValue.Null -> "null"
     | JsonValue.False -> "false"
     | JsonValue.True -> "true"
-    | JsonValue.String x -> Quotation.quote x
+    | JsonValue.String x -> JsonString.quote x
     | JsonValue.Number c -> Convert.ToString c
