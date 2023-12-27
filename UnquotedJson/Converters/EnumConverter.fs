@@ -2,7 +2,7 @@
 open UnquotedJson
 
 open System
-open FSharp.Literals
+open FSharp.Idioms.Literal
 open FSharp.Idioms
 
 let private _read (ty:Type) (value:obj) =
@@ -25,14 +25,14 @@ let private _write (ty:Type) (json:JsonValue) =
             flags
             |> List.map(function
                 | JsonValue.String flag -> values.[flag] 
-                | json -> failwith (Render.stringify json)
+                | json -> failwith (stringify json)
             )
             |> List.reduce(|||)
-        | _ -> failwith (Render.stringify json)
+        | _ -> failwith (stringify json)
     else
         match json with
         | JsonValue.String enum -> values.[enum]
-        | _ -> failwith (Render.stringify json)
+        | _ -> failwith (stringify json)
     |> EnumType.fromUInt64 enumUnderlyingType
 
 

@@ -1,7 +1,7 @@
 ﻿module UnquotedJson.JSON
 
 open System
-open FSharp.Literals.Literal
+open FSharp.Idioms.Literal
 open UnquotedJson.Converters
 
 let parser = JsonCompiler.parser

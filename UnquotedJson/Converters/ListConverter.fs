@@ -12,11 +12,10 @@ let tryRead (ty:Type) (value:obj) =
         )
     else None
 
-
 let tryWrite (ty:Type) (json:JsonValue) = 
     if ty.IsGenericType && ty.GetGenericTypeDefinition() = typedefof<List<_>> then
         Some(fun loopWrite -> 
-            let elementType = ListType.getElementType ty
+            let elementType = ty.GetElementType() // ListType.getElementType
             let arrayType = elementType.MakeArrayType()
             let arr = loopWrite arrayType json
             let mOfArray = ListType.getOfArray ty

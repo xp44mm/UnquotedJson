@@ -2,7 +2,7 @@
 
 open UnquotedJson
 open System
-open FSharp.Literals
+open FSharp.Idioms.Literal
 
 let assertType<'t> (ty:Type) (value:obj) =
     let t = typeof<'t>
@@ -81,7 +81,7 @@ let fallbackRead (ty) (value) (loopRead:Type -> obj -> JsonValue) =
     elif ty = typeof<obj> && value.GetType() <> typeof<obj> then
         loopRead (value.GetType()) value
     else
-        JsonValue.String (Render.stringify value)
+        JsonValue.String (stringify value)
 
 ///
 let fallbackWrite (ty:Type) (json:JsonValue) =

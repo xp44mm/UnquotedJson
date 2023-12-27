@@ -26,7 +26,7 @@ let tryWrite (ty:Type) (json:JsonValue) =
         fun loopWrite -> 
             match json with
             | JsonValue.Array elements ->
-                let elementType = ArrayType.getElementType ty
+                let elementType = ty.GetElementType()
                 let arr = (Array.CreateInstance:Type*int->Array)(elementType, elements.Length)
                 elements
                 |> List.map(fun e -> loopWrite elementType e)

@@ -4,7 +4,7 @@ open UnquotedJson
 open System
 open FSharp.Idioms
 open Microsoft.FSharp.Reflection
-open FSharp.Literals
+open FSharp.Idioms.Literal
 
 let tryRead (ty:Type) (value:obj) = 
     if FSharpType.IsRecord ty then
@@ -27,7 +27,7 @@ let tryWrite (ty:Type) (json:JsonValue) =
                     |> Array.map(fun pi -> 
                         if job.ContainsKey pi.Name then
                             loopWrite pi.PropertyType job.[pi.Name]
-                        else Literal.defaultValueDynamic pi.PropertyType
+                        else Literal.zeroDynamic pi.PropertyType
                     )
                 FSharpValue.MakeRecord(ty,values)
             | _ -> failwith "RecordWriter.write()"

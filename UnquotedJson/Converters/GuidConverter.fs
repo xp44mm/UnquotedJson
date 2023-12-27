@@ -2,7 +2,7 @@
 open UnquotedJson
 
 open System
-open FSharp.Literals
+open FSharp.Idioms.Literal
 
 let tryRead(ty:Type) (value:obj) = 
     if ty = typeof<Guid> then
@@ -16,7 +16,7 @@ let tryWrite(ty:Type) (json:JsonValue) =
         Some(fun loopWrite -> 
             match json with
             | JsonValue.String guid -> box <| Guid.Parse(guid)
-            | _ -> failwith (Render.stringify json)
+            | _ -> failwith (stringify json)
         )
     else None
 

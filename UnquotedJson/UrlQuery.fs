@@ -5,7 +5,7 @@ open System.Reflection
 
 open Microsoft.FSharp.Reflection
 
-open FSharp.Literals
+open FSharp.Idioms.Literal
 
 let parseFieldDynamic (ty:Type) (txt:string) =
     if txt = "" then
@@ -72,7 +72,7 @@ let parseQueryDynamic (ty:Type) (fields:seq<string*string>) =
             |> Array.map(fun pi -> 
                 if fields.ContainsKey pi.Name then
                     parseFieldDynamic pi.PropertyType fields.[pi.Name]
-                else Literal.defaultValueDynamic pi.PropertyType)
+                else zeroDynamic pi.PropertyType)
         FSharpValue.MakeRecord(ty,props)
     else
         let target = Activator.CreateInstance(ty)

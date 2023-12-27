@@ -2,7 +2,7 @@
 
 open FslexFsyacc.Runtime
 open System
-open FSharp.Literals.Literal
+open FSharp.Idioms.Literal
 
 let parser =
     Parser<Position<JsonToken>> (

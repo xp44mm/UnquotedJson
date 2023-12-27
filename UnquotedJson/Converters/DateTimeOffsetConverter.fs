@@ -2,7 +2,7 @@
 open UnquotedJson
 
 open System
-open FSharp.Literals
+open FSharp.Idioms.Literal
 
 let tryRead (ty:Type) (value:obj) = 
     if ty = typeof<DateTimeOffset> then
@@ -16,5 +16,5 @@ let tryWrite (ty:Type) (json:JsonValue) =
         Some(fun loopWrite -> 
             match json with
             | JsonValue.String s -> box <| DateTimeOffset.Parse(s)
-            | _ -> failwith (Render.stringify json))
+            | _ -> failwith (stringify json))
     else None
