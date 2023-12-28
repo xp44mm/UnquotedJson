@@ -30,14 +30,3 @@ value+ :
 %type<string*Json> field
 %type<list<string*Json>> field+ object
 %type<Json> value
-
-// QUOTED : string
-// UNQUOTED : string
-// key : string
-// array : "Json list"
-// field : "string*Json"
-// field+ : "list<string*Json>"
-// object : "list<string*Json>"
-// value : Json
-// value+ : "Json list"
-

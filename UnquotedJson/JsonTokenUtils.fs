@@ -16,29 +16,6 @@ let tokenize (pos:int) (inp:string) =
             match inp.[i-pos..] with
             | "" -> ()
     
-            | Rgx @"^\s+" x -> 
-                let pos = i + x.Length
-                yield! loop pos
-
-            | Rgx @"^""(\\[^\u0000-\u001F\u007F]|[^\\""\u0000-\u001F\u007F])*""" lexeme ->
-                let postok = {
-                    index = i
-                    length = lexeme.Length
-                    value = QUOTED(Json.unquote lexeme.Value)
-                }
-                yield postok
-                yield! loop postok.nextIndex
-
-            | Rgx @"^[^,:{}[\]""]+(?<=\S)" lexeme ->
-
-                let postok = {
-                    index = i
-                    length = lexeme.Length
-                    value = UNQUOTED lexeme.Value
-                }
-                yield postok
-                yield! loop postok.nextIndex
-
             | First '{' capt ->
 
                 let postok = {
@@ -48,6 +25,7 @@ let tokenize (pos:int) (inp:string) =
                 }
                 yield postok
                 yield! loop postok.nextIndex
+
             | First '}' _ ->
                 let postok = {
                     index = i
@@ -85,12 +63,41 @@ let tokenize (pos:int) (inp:string) =
                 yield! loop postok.nextIndex
 
             | First ':' _ ->
-                //yield pos,COLON
-                //yield! loop (pos+1) rest
                 let postok = {
                     index = i
                     length = 1
                     value = COLON
+                }
+                yield postok
+                yield! loop postok.nextIndex
+
+            | Rgx @"^\s+" x -> 
+                let pos = i + x.Length
+                yield! loop pos
+
+            | Rgx @"^//[^\r\n]*" x ->
+                let pos = i + x.Length
+                yield! loop pos
+
+            | Rgx @"^/\*(?!\s*\))[\s\S]*?\*/" x ->
+                let pos = i + x.Length
+                yield! loop pos
+
+            | Rgx @"^""(\\[^\u0000-\u001F\u007F]|[^\\""\u0000-\u001F\u007F])*""" lexeme ->
+                let postok = {
+                    index = i
+                    length = lexeme.Length
+                    value = QUOTED(Json.unquote lexeme.Value)
+                }
+                yield postok
+                yield! loop postok.nextIndex
+
+            | Rgx @"^[^,:{}[\]""]+(?<=\S)" lexeme ->
+
+                let postok = {
+                    index = i
+                    length = lexeme.Length
+                    value = UNQUOTED lexeme.Value
                 }
                 yield postok
                 yield! loop postok.nextIndex
@@ -110,12 +117,15 @@ let getTag (postok:Position<JsonToken>) =
     | RBRACE     -> "}"
     | QUOTED   _ -> "QUOTED"
     | UNQUOTED _ -> "UNQUOTED"
-    | WS _ -> "WS"
+    | WS       _ -> "WS"
+    | COMMENT  _ -> "COMMENT"
 
 let getLexeme (postok:Position<JsonToken>) = 
     match postok.value with
-    | QUOTED x -> box x
-    | UNQUOTED x -> box x
+    | QUOTED   raw
+    | UNQUOTED raw
+    | WS       raw
+    | COMMENT  raw -> box raw
     | _ -> null
 
 /// get value from unquoted

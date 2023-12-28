@@ -145,3 +145,29 @@ type JsonTokenUtilsTest(output:ITestOutputHelper) =
         show y
 
         Should.equal y [{index= 0;length= 1;value= LBRACE};{index= 1;length= 3;value= QUOTED "0"};{index= 4;length= 1;value= COLON};{index= 5;length= 1;value= LBRACE};{index= 6;length= 7;value= QUOTED "index"};{index= 13;length= 1;value= COLON};{index= 14;length= 1;value= UNQUOTED "0"};{index= 15;length= 1;value= COMMA};{index= 16;length= 9;value= QUOTED "license"};{index= 25;length= 1;value= COLON};{index= 26;length= 3;value= QUOTED "t"};{index= 29;length= 1;value= COMMA};{index= 30;length= 9;value= QUOTED "nameSID"};{index= 39;length= 1;value= COLON};{index= 40;length= 3;value= QUOTED "n"};{index= 43;length= 1;value= COMMA};{index= 44;length= 7;value= QUOTED "image"};{index= 51;length= 1;value= COLON};{index= 52;length= 10;value= QUOTED "img:left"};{index= 62;length= 1;value= COMMA};{index= 63;length= 16;value= QUOTED "descriptionSID"};{index= 79;length= 1;value= COLON};{index= 80;length= 3;value= QUOTED "t"};{index= 83;length= 1;value= COMMA};{index= 84;length= 10;value= QUOTED "category"};{index= 94;length= 1;value= COLON};{index= 95;length= 3;value= QUOTED "r"};{index= 98;length= 1;value= RBRACE};{index= 99;length= 1;value= RBRACE}]
+
+    [<Fact>]
+    member _.``tokenize single line comment``() =
+        let x = "// hello"
+
+        let y = 
+            JsonTokenUtils.tokenize 0 x
+            |> Seq.toList
+
+        show y
+
+        Should.equal y []
+
+    [<Fact>]
+    member _.``tokenize multi line comment``() =
+        let x = "/* dd
+        */"
+
+        let y = 
+            JsonTokenUtils.tokenize 0 x
+            |> Seq.toList
+
+        show y
+
+        Should.equal y []
+

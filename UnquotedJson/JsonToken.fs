@@ -10,6 +10,7 @@ type JsonToken =
     | QUOTED of string
     | UNQUOTED of string
     | WS of string
+    | COMMENT of string
 
     member this.raw =
         match this with
@@ -19,7 +20,7 @@ type JsonToken =
         | RBRACK -> "]"
         | LBRACE -> "{"
         | RBRACE -> "}"
-        | QUOTED raw 
+        | QUOTED   raw
         | UNQUOTED raw
-        | WS raw 
-            -> raw
+        | WS       raw
+        | COMMENT  raw -> raw
