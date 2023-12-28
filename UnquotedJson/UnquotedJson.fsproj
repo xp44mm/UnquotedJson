@@ -17,26 +17,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="JsonValue.fs" />
-		<Compile Include="JsonRender.fs" />
-		<Compile Include="Converters\FallbackConverter.fs" />
-		<Compile Include="Converters\DateTimeOffsetConverter.fs" />
-		<Compile Include="Converters\DBNullConverter.fs" />
-		<Compile Include="Converters\NullableConverter.fs" />
-		<Compile Include="Converters\ArrayConverter.fs" />
-		<Compile Include="Converters\ClassConverter.fs" />
-		<Compile Include="Converters\EnumConverter.fs" />
-		<Compile Include="Converters\GuidConverter.fs" />
-		<Compile Include="Converters\ListConverter.fs" />
-		<Compile Include="Converters\MapConverter.fs" />
-		<Compile Include="Converters\OptionConverter.fs" />
-		<Compile Include="Converters\RecordConverter.fs" />
-		<Compile Include="Converters\SetConverter.fs" />
-		<Compile Include="Converters\TimeSpanConverter.fs" />
-		<Compile Include="Converters\TupleConverter.fs" />
-		<Compile Include="Converters\UnionConverter.fs" />
-		<Compile Include="Converters\UriConverter.fs" />
-		<Compile Include="Converters\FSharpConverter.fs" />
 		<Compile Include="JsonToken.fs" />
 		<Compile Include="JsonTokenUtils.fs" />
 		<None Include="json.fsyacc" />
@@ -54,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FslexFsyacc.Runtime" Version="1.3.11" />
+		<PackageReference Include="FslexFsyacc.Runtime" Version="1.3.12" />
 	</ItemGroup>
 
 	<ItemGroup>

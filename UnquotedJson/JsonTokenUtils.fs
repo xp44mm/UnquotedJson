@@ -2,8 +2,9 @@
 
 open System
 open System.Text.RegularExpressions
-
 open FSharp.Idioms
+
+open FSharp.Idioms.Jsons
 open FSharp.Idioms.ActivePatterns
 open FSharp.Idioms.RegularExpressions
 
@@ -23,7 +24,7 @@ let tokenize (pos:int) (inp:string) =
                 let postok = {
                     index = i
                     length = lexeme.Length
-                    value = QUOTED(JsonString.unquote lexeme.Value)
+                    value = QUOTED(Json.unquote lexeme.Value)
                 }
                 yield postok
                 yield! loop postok.nextIndex
@@ -120,12 +121,12 @@ let getLexeme (postok:Position<JsonToken>) =
 /// get value from unquoted
 let fromUnquoted str = 
     match str with
-    | "null" -> JsonValue.Null
-    | "true" -> JsonValue.True
-    | "false" -> JsonValue.False
+    | "null" -> Json.Null
+    | "true" -> Json.True
+    | "false" -> Json.False
     | Search(Regex(@"^[-+]?\d+(\.\d+)?([eE][-+]?\d+)?$")) _ ->
-        JsonValue.Number(Double.Parse str)
-    | _ -> JsonValue.String str
+        Json.Number(Double.Parse str)
+    | _ -> Json.String str
 
 
 

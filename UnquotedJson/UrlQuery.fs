@@ -5,6 +5,7 @@ open System.Reflection
 
 open Microsoft.FSharp.Reflection
 
+open FSharp.Idioms
 open FSharp.Idioms.Literal
 
 let parseFieldDynamic (ty:Type) (txt:string) =
@@ -57,7 +58,7 @@ let parseFieldDynamic (ty:Type) (txt:string) =
     else
         txt
         |> JSON.parse
-        |> JSON.writeDynamic ty
+        |> Json.writeDynamic ty
     
 let parseField<'t> (value:string) = 
     let ty = typeof<'t>
@@ -72,7 +73,7 @@ let parseQueryDynamic (ty:Type) (fields:seq<string*string>) =
             |> Array.map(fun pi -> 
                 if fields.ContainsKey pi.Name then
                     parseFieldDynamic pi.PropertyType fields.[pi.Name]
-                else zeroDynamic pi.PropertyType)
+                else defaultofDynamic pi.PropertyType)
         FSharpValue.MakeRecord(ty,props)
     else
         let target = Activator.CreateInstance(ty)

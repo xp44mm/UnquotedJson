@@ -1,5 +1,6 @@
 module UnquotedJson.Program
-open FSharp.Literals
+open FSharp.Idioms
+open FSharp.Idioms.Jsons
 open System
 
 let x = """{0:{index:0, license:t, nameSID:n, image:"img:left", descriptionSID:t, category:r}}"""

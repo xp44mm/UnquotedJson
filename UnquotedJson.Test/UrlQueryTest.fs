@@ -3,13 +3,14 @@
 open Xunit
 open Xunit.Abstractions
 
-open FSharp.Literals
+open FSharp.Idioms
+open FSharp.Idioms.Jsons
 open FSharp.xUnit
 
 type UrlQueryTest(output:ITestOutputHelper) =
     let show res =
         res
-        |> Render.stringify
+        |> Literal.stringify
         |> output.WriteLine
 
     [<Fact>]

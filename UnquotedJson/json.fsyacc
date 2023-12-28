@@ -1,10 +1,10 @@
 ﻿%{
-open UnquotedJson
+open FSharp.Idioms.Jsons
 %}
 value :
-    | object {JsonValue.Object s0}
-    | array {JsonValue.Array  s0}
-    | QUOTED {JsonValue.String s0}
+    | object {Json.Object s0}
+    | array {Json.Array  s0}
+    | QUOTED {Json.String s0}
     | UNQUOTED {JsonTokenUtils.fromUnquoted s0}
 object :
     | "{" "}" {[]}
@@ -26,18 +26,18 @@ value+ :
 %%
 
 %type<string> QUOTED UNQUOTED key
-%type<JsonValue list> array value+
-%type<string*JsonValue> field
-%type<list<string*JsonValue>> field+ object
-%type<JsonValue> value
+%type<Json list> array value+
+%type<string*Json> field
+%type<list<string*Json>> field+ object
+%type<Json> value
 
 // QUOTED : string
 // UNQUOTED : string
 // key : string
-// array : "JsonValue list"
-// field : "string*JsonValue"
-// field+ : "list<string*JsonValue>"
-// object : "list<string*JsonValue>"
-// value : JsonValue
-// value+ : "JsonValue list"
+// array : "Json list"
+// field : "string*Json"
+// field+ : "list<string*Json>"
+// object : "list<string*Json>"
+// value : Json
+// value+ : "Json list"
 

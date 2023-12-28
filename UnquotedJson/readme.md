@@ -124,17 +124,17 @@ type UionExample =
 The signature of `tryRead` is:
 
 ```F#
-tryRead:Type -> obj -> ((Type -> obj -> JsonValue) -> JsonValue) option
+tryRead:Type -> obj -> ((Type -> obj -> Json) -> Json) option
 ```
 
 The signature of `tryWrite` is:
 
 ```F#
-tryWrite:Type -> JsonValue -> ((Type -> JsonValue -> obj) -> obj) option
+tryWrite:Type -> Json -> ((Type -> Json -> obj) -> obj) option
 ```
 
 The usage see also [FSharpConverter.fs](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/Converters/FSharpConverter.fs)
-The return value of `JSON.parse` is `JsonValue` type that is a Discriminated Union type of F#.
+The return value of `JSON.parse` is `Json` type that is a Discriminated Union type of F#.
 
 ### UrlQuery
 
@@ -149,7 +149,7 @@ The usage see also [UrlQueryTest.fs](https://github.com/xp44mm/UnquotedJson/blob
 
 The main structure types are defined as follows:
 
-- The type `JsonValue` see to [JsonValue](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/JsonValue.fs).
+- The type `Json` see to [Json](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/Json.fs).
 
 - The type `JsonToken` see to [JsonToken](https://github.com/xp44mm/UnquotedJson/blob/master/UnquotedJson/JsonToken.fs).
 

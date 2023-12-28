@@ -9,6 +9,8 @@ open Microsoft.AspNetCore.Mvc.Formatters
 open Microsoft.Extensions.Primitives
 open Microsoft.Net.Http.Headers
 
+open FSharp.Idioms
+open FSharp.Idioms.Jsons
 open UnquotedJson
 open FSharp.Control.Tasks.V2
 
@@ -21,10 +23,12 @@ type UnquotedJsonActionResultExecutor
         member this.ExecuteAsync(context:ActionContext, result:JsonResult) =
             let json = 
                 match result.Value with
-                | :? JsonValue as json -> json
-                | value -> JSON.readDynamic (value.GetType()) value
+                | :? Json as json -> json
+                | value -> 
+                    //JSON.readDynamic (value.GetType()) value
+                    Json.readDynamic (value.GetType()) value
 
-            let text = JSON.stringifyNormalJson json
+            let text = Json.stringify json
 
             let response = context.HttpContext.Response
             response.ContentType <- 

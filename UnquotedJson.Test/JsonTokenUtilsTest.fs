@@ -3,14 +3,14 @@
 open Xunit
 open Xunit.Abstractions
 
-open FSharp.Literals
+open FSharp.Idioms.Literal
 open FSharp.xUnit
 open UnquotedJson
 
 type JsonTokenUtilsTest(output:ITestOutputHelper) =
     let show res =
         res
-        |> Render.stringify
+        |> stringify
         |> output.WriteLine
 
     [<Fact>]

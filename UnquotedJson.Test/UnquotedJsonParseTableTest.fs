@@ -8,85 +8,84 @@ open System.Text
 open System.Text.RegularExpressions
 
 open FSharp.Idioms
-open FSharp.Literals
+open FSharp.Idioms.Literal
 open FSharp.xUnit
 open FslexFsyacc.Fsyacc
 open FslexFsyacc.Yacc
 open FslexFsyacc.Runtime
 
 type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
-    let show res =
-        res
-        |> Render.stringify
-        |> output.WriteLine
-
+    let parseTblName = "JsonParseTable"
+    let parseTblModule = $"UnquotedJson.{parseTblName}"
     let solutionPath = DirectoryInfo(__SOURCE_DIRECTORY__).Parent.FullName
     let locatePath = Path.Combine(solutionPath,@"UnquotedJson")
     let filePath = Path.Combine(locatePath, "json.fsyacc")
-    let text = File.ReadAllText(filePath)
-    //let rawFsyacc = RawFsyaccFile.parse text
-    //let fsyacc = FlatFsyaccFile.fromRaw rawFsyacc
-
-    let parseTblName = "JsonParseTable"
-    let parseTblModule = $"UnquotedJson.{parseTblName}"
     let parseTblPath = Path.Combine(locatePath, $"{parseTblName}.fs")
 
-    let grammar text =
-        text
-        |> FlatFsyaccFileUtils.parse
-        |> FlatFsyaccFileUtils.toGrammar
+    let show res =
+        res
+        |> stringify
+        |> output.WriteLine
+        
+    let text = File.ReadAllText(filePath,Encoding.UTF8)
 
-    let ambiguousCollection text =
+    let fsyaccCrew =
         text
-        |> FlatFsyaccFileUtils.parse
-        |> FlatFsyaccFileUtils.toAmbiguousCollection
+        |> RawFsyaccFileCrewUtils.parse
+        |> FlatedFsyaccFileCrewUtils.fromRawFsyaccFileCrew
 
-    //解析表数据
-    let parseTbl text = 
-        text
-        |> FlatFsyaccFileUtils.parse
-        |> FlatFsyaccFileUtils.toFsyaccParseTableFile
+    let inputProductionList =
+        fsyaccCrew.flatedRules
+        |> List.map Triple.first
+
+    let collectionCrew = 
+        inputProductionList
+        |> AmbiguousCollectionCrewUtils.newAmbiguousCollectionCrew
+
+    let tblCrew =
+        fsyaccCrew
+        |> FlatedFsyaccFileCrewUtils.getSemanticParseTableCrew
 
     [<Fact>]
     member _.``01 - norm fsyacc file``() =
-        let fsyacc = 
-            text
-            |> FlatFsyaccFileUtils.parse
-
-        let s0 = 
-            fsyacc.rules
-            |> FlatFsyaccFileRule.getStartSymbol
+        let s0 = tblCrew.startSymbol
+        let flatedFsyacc =
+            fsyaccCrew
+            |> FlatedFsyaccFileCrewUtils.toFlatFsyaccFile
 
         let src = 
-            fsyacc.start(s0, Set.empty)
+            flatedFsyacc 
+            |> FlatFsyaccFileUtils.start s0
             |> RawFsyaccFileUtils.fromFlat
             |> RawFsyaccFileUtils.render
 
         output.WriteLine(src)
+
     [<Fact>]
     member _.``02 - list all tokens``() =
-        let grammar = grammar text
         let y = set [",";":";"QUOTED";"UNQUOTED";"[";"]";"{";"}"]
-        show grammar.terminals
-        Should.equal y grammar.terminals
+        let tokens = tblCrew.symbols - tblCrew.nonterminals
+        show tokens
+        Should.equal y tokens
         
     [<Fact>]
     member _.``03 - list all states``() =
-        let collection = ambiguousCollection text
-        
-        let src = collection.render()
-        output.WriteLine(src)
+        let text = 
+            AmbiguousCollectionUtils.render 
+                tblCrew.terminals
+                tblCrew.conflictedItemCores
+                (tblCrew.kernels |> Seq.mapi(fun i k -> k,i) |> Map.ofSeq)
+
+        output.WriteLine(text)
 
     [<Fact>]
     member _.``04 - precedence Of Productions``() =
-        let collection = ambiguousCollection text
-
         let productions = 
-            collection.collectConflictedProductions()
+            AmbiguousCollectionUtils.collectConflictedProductions tblCrew.conflictedItemCores
 
         // production -> %prec
         let pprods =
-            ProductionUtils.precedenceOfProductions collection.grammar.terminals productions
+            ProductionSetUtils.precedenceOfProductions tblCrew.terminals productions
 
         //优先级应该据此结果给出，不能少，也不应该多。
         let y = []
@@ -95,19 +94,17 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
 
     [<Fact>]
     member _.``05 - list declarations``() =
-        let grammar = grammar text
-
         let terminals =
-            grammar.terminals
+            tblCrew.terminals
             |> Seq.map RenderUtils.renderSymbol
             |> String.concat " "
 
         let nonterminals =
-            grammar.nonterminals
+            tblCrew.nonterminals
             |> Seq.map RenderUtils.renderSymbol
             |> String.concat " "
 
-        let sourceCode =
+        let src =
             [
                 "// Do not list symbols whose return value is always `null`"
                 ""
@@ -119,41 +116,48 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
             ] 
             |> String.concat "\r\n"
 
-        output.WriteLine(sourceCode)
+        output.WriteLine(src)
 
+    [<Fact(
+    Skip="按需更新源代码"
+    )>]
+    member _.``06 - generate ParseTable``() =
+        let src =
+            tblCrew
+            |> FsyaccParseTableFileUtils.ofSemanticParseTableCrew
+            |> FsyaccParseTableFileUtils.generateModule(parseTblModule)
 
-    [<Fact()>] // Skip="once for all!"
-    member _.``06 - generate Fsyacc2ParseTable``() =
-        let parseTbl = parseTbl text
-
-        let fsharpCode = parseTbl.generateModule(parseTblModule)
-        File.WriteAllText(parseTblPath,fsharpCode,Encoding.UTF8)
-        output.WriteLine("output fsyacc:"+parseTblPath)
+        File.WriteAllText(parseTblPath, src, Encoding.UTF8)
+        output.WriteLine($"output yacc:\r\n{parseTblPath}")
 
     [<Fact>]
     member _.``07 - valid ParseTable``() =
-        let parseTbl = parseTbl text
+        Should.equal tblCrew.encodedActions  JsonParseTable.actions
+        Should.equal tblCrew.encodedClosures JsonParseTable.closures
 
-        Should.equal parseTbl.actions JsonParseTable.actions
-        Should.equal parseTbl.closures JsonParseTable.closures
+        //产生式比较
+        let prodsFsyacc = 
+            List.map fst tblCrew.rules
 
-        let prodsFsyacc =
-            List.map fst parseTbl.rules
-
-        let prodsParseTable =
+        let prodsParseTable = 
             List.map fst JsonParseTable.rules
+
         Should.equal prodsFsyacc prodsParseTable
 
+        //header,semantic代码比较
         let headerFromFsyacc =
-            FSharp.Compiler.SyntaxTreeX.Parser.getDecls("header.fsx",parseTbl.header)
+            FSharp.Compiler.SyntaxTreeX.Parser.getDecls("header.fsx",tblCrew.header)
 
         let semansFsyacc =
-            let mappers = parseTbl.generateMappers()
+            let mappers = 
+                tblCrew
+                |> FsyaccParseTableFileUtils.ofSemanticParseTableCrew
+                |> FsyaccParseTableFileUtils.generateMappers
             FSharp.Compiler.SyntaxTreeX.SourceCodeParser.semansFromMappers mappers
 
         let header,semans =
-            File.ReadAllText(parseTblPath, Encoding.UTF8)
-            |> FSharp.Compiler.SyntaxTreeX.SourceCodeParser.getHeaderSemansFromFSharp 2
+            let text = File.ReadAllText(parseTblPath, Encoding.UTF8)
+            FSharp.Compiler.SyntaxTreeX.SourceCodeParser.getHeaderSemansFromFSharp 2 text
 
         Should.equal headerFromFsyacc header
         Should.equal semansFsyacc semans

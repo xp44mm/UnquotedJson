@@ -8,27 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="JsonTokenUtilsTest.fs" />
 		<Compile Include="UnquotedJsonParseTableTest.fs" />
-		<Compile Include="JsonValueTest.fs" />
-		<Compile Include="Converters\Serialization.fs" />
-		<Compile Include="Converters\FallbackReaderTest.fs" />
-		<Compile Include="Converters\FallbackWriterTest.fs" />
-		<Compile Include="Converters\EnumTest.fs" />
-		<Compile Include="Converters\GuidTest.fs" />
-		<Compile Include="Converters\DateTimeOffsetConverterTest.fs" />
-		<Compile Include="Converters\TimeSpanConverterTest.fs" />
-		<Compile Include="Converters\DBNullConverterTest.fs" />
-		<Compile Include="Converters\NullableTest.fs" />
-		<Compile Include="Converters\OptionTest.fs" />
-		<Compile Include="Converters\RecordTest.fs" />
-		<Compile Include="Converters\ArrayTest.fs" />
-		<Compile Include="Converters\TupleTest.fs" />
-		<Compile Include="Converters\ListTest.fs" />
-		<Compile Include="Converters\SetTest.fs" />
-		<Compile Include="Converters\MapTest.fs" />
-		<Compile Include="Converters\UnionTest.fs" />
-		<Compile Include="Converters\ClassTest.fs" />
+		<Compile Include="JsonTokenUtilsTest.fs" />
 		<Compile Include="UrlQueryTest.fs" />
 		<Compile Include="Program.fs" />
 	</ItemGroup>
@@ -36,11 +17,11 @@
 	<ItemGroup>
 		<PackageReference Include="FSharp.Compiler.Service" Version="43.8.100" />
 		<PackageReference Include="FSharp.Compiler.SyntaxTreeX" Version="43.8.100" />
-		<PackageReference Include="FSharp.xUnit" Version="1.2.21" />
-		<PackageReference Include="FslexFsyacc" Version="1.3.11" />
+		<PackageReference Include="FSharp.xUnit" Version="1.2.22" />
+		<PackageReference Include="FslexFsyacc" Version="1.3.12" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-		<PackageReference Include="xunit" Version="2.6.3" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.5">
+		<PackageReference Include="xunit" Version="2.6.4" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
