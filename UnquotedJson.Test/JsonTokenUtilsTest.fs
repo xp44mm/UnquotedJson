@@ -136,7 +136,7 @@ type JsonTokenUtilsTest(output:ITestOutputHelper) =
     
     [<Fact>]
     member _.``parse normal json``() =
-        let x = """{"0":{"index":0,"license":"t","nameSID":"n","image":"img:left","descriptionSID":"t","category":"r"}}"""
+        let x = """{"0":{"index":0,"license":"t","nameSID":"n","image":"img:left","descriptionSID":"t","category":"r"}}/*test*/"""
 
         let y = 
             JsonTokenUtils.tokenize 0 x

@@ -40,24 +40,25 @@ let parseFieldDynamic (ty:Type) (txt:string) =
     elif ty = typeof<uint32> then
         UInt32.Parse txt
         |> box
-    elif ty = typeof<int64> then
-        Int64.Parse txt
-        |> box
-    elif ty = typeof<uint64> then
-        UInt64.Parse txt
-        |> box
     elif ty = typeof<single> then
         Single.Parse txt
         |> box
     elif ty = typeof<float> then
         Double.Parse txt
         |> box
+
+    elif ty = typeof<int64> then
+        Int64.Parse txt
+        |> box
+    elif ty = typeof<uint64> then
+        UInt64.Parse txt
+        |> box
     elif ty = typeof<decimal> then
         Decimal.Parse txt
         |> box
     else
         txt
-        |> JSON.parse
+        |> Json.parse
         |> Json.writeDynamic ty
     
 let parseField<'t> (value:string) = 

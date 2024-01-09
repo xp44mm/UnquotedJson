@@ -28,7 +28,7 @@ type UnquotedJsonActionResultExecutor
                     //JSON.readDynamic (value.GetType()) value
                     Json.readDynamic (value.GetType()) value
 
-            let text = Json.stringify json
+            let text = Json.print json
 
             let response = context.HttpContext.Response
             response.ContentType <- 

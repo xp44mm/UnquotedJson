@@ -2,9 +2,13 @@
 
 UnquotedJson is a JSON parser that parse the standard JSON format. UnquotedJson also relax the rules a little and allows unquoted strings which are keys and/or in values.
 
-The quote signs of string may be omitted if shorten does not cause parsing ambiguity or errors.
+- The quote signs of string may be omitted if shorten does not cause parsing ambiguity or errors.
 
-The string must be quoted if a string is unquoted will causes parsing ambiguity or errors.
+- The string must be quoted if a string is unquoted will causes parsing ambiguity or errors.
+
+- comment
+
+- tailing comma
 
 ## Format Convert
 

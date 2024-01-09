@@ -1,28 +1,40 @@
 ﻿%{
 open FSharp.Idioms.Jsons
 %}
+
 value :
     | object {Json.Object s0}
     | array {Json.Array  s0}
     | QUOTED {Json.String s0}
     | UNQUOTED {JsonTokenUtils.fromUnquoted s0}
+
 object :
     | "{" "}" {[]}
-    | "{" field+ "}" {List.rev s1}
+    | "{" field+ ","? "}" {List.rev s1}
+
 field+ :
     | field {[s0]}
     | field+ "," field {s2::s0}
+
 field :
     | key ":" value {s0,s2}
+
 key :
     | QUOTED {s0}
     | UNQUOTED {s0}
+
 array :
     | "[" "]" {[]}
-    | "[" value+ "]" {List.rev s1}
+    | "[" value+ ","? "]" {List.rev s1}
+
 value+ :
     | value {[s0]}
     | value+ "," value {s2::s0}
+
+","? :
+    | (*empty*) {}
+    | "," {}
+
 %%
 
 %type<string> QUOTED UNQUOTED key

@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<Description>A JSON parser allows unquoted keys and values.</Description>
 		<Company>34696643@qq.com</Company>
 		<Authors>xp44m</Authors>
@@ -10,7 +11,7 @@
 		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
 		<PackageReleaseNotes>update nuget</PackageReleaseNotes>
-		<Version>1.0.13</Version>
+		<Version>1.0.16</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageTags>unquoted; JSON; parser</PackageTags>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
@@ -23,7 +24,7 @@
 		<Compile Include="JsonParseTable.fs" />
 		<Compile Include="JsonCompiler.fs" />
 
-		<Compile Include="JSON.fs" />
+		<Compile Include="Json.fs" />
 
 		<Compile Include="UrlQuery.fs" />
 
@@ -34,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FslexFsyacc.Runtime" Version="1.3.12" />
+		<PackageReference Include="FslexFsyacc.Runtime" Version="1.3.14" />
 	</ItemGroup>
 
 	<ItemGroup>
