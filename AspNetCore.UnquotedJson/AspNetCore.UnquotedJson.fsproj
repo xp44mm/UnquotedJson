@@ -32,7 +32,7 @@
 		</None>
 		<PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
 		<ProjectReference Include="..\UnquotedJson\UnquotedJson.fsproj" />
-		<PackageReference Update="FSharp.Core" Version="8.0.100" />
+		<PackageReference Update="FSharp.Core" Version="8.0.101" />
 	</ItemGroup>
 
 
