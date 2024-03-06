@@ -25,8 +25,7 @@ type UnquotedJsonActionResultExecutor
                 match result.Value with
                 | :? Json as json -> json
                 | value -> 
-                    //JSON.readDynamic (value.GetType()) value
-                    Json.readDynamic (value.GetType()) value
+                    Json.fromObj (value.GetType()) value
 
             let text = Json.print json
 

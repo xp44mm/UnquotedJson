@@ -1,14 +1,19 @@
 # UnquotedJson
 
-UnquotedJson is a JSON parser that parse the standard JSON format. UnquotedJson also relax the rules a little and allows unquoted strings which are keys and/or in values.
+UnquotedJson is a JSON5 parser.
 
-- The quote signs of string may be omitted if shorten does not cause parsing ambiguity or errors.
+### Objects
+- Object keys may be an ECMAScript 5.1.
+- Objects may have a single trailing comma.
 
-- The string must be quoted if a string is unquoted will causes parsing ambiguity or errors.
+### Arrays
+- Arrays may have a single trailing comma.
 
-- comment
+### Comments
+- Single and multi-line comments are allowed.
 
-- tailing comma
+### White Space
+- Additional white space characters are allowed.
 
 ## Format Convert
 
@@ -20,8 +25,8 @@ let x = """{
     }"""
 let y = 
     x
-    |> JSON.parse
-    |> JSON.stringifyNormalJson
+    |> Json.parse
+    |> Json.print
 ```
 
 UnquotedJson is a superset of JSON, so the `JSON.parse` parsing function can directly parse normal JSON. follows code convert the normal format to unquoted json format:
@@ -33,8 +38,8 @@ let n = """{
 
 let y = 
     n
-    |> JSON.parse
-    |> JSON.stringifyUnquotedJson
+    |> Json.parse
+    |> Json.print
 ```
 
 ## Object Serialization
@@ -44,13 +49,13 @@ You can define serialization and deserialization functions for objects.
 ```F#
 let serialize<'t> obj =
     obj
-    |> JSON.read<'t>
-    |> JSON.stringifyNormalJson
+    |> Json.read<'t>
+    |> Json.print
 
 let deserialize<'t> text =
     text
-    |> JSON.parse 
-    |> JSON.write<'t>
+    |> Json.parse 
+    |> Json.write<'t>
 ```
 
 Here are some examples of serialization of common object types.
@@ -104,7 +109,7 @@ Map [1,"1";2,"2"]
 ```
 
 ```json
-[1,null]
+[[1],[]]
 ```
 
 ### Union
@@ -116,11 +121,10 @@ type UionExample =
 | Pair of int * string
 
 [Zero;OnlyOne 1;Pair(2,"b")]
-
 ```
 
 ```json
-["Zero",{"OnlyOne":1},{"Pair":[2,"b"]}]
+["Zero";["OnlyOne", 1];["Pair",2,"b"]]
 ```
 
 ## Provide tryRead and tryWrite to custom your convert rule

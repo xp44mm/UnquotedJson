@@ -59,7 +59,7 @@ let parseFieldDynamic (ty:Type) (txt:string) =
     else
         txt
         |> Json.parse
-        |> Json.writeDynamic ty
+        |> Json.toObj ty
     
 let parseField<'t> (value:string) = 
     let ty = typeof<'t>
