@@ -5,7 +5,6 @@ open Xunit.Abstractions
 
 open FSharp.Idioms.Literal
 open FSharp.xUnit
-open UnquotedJson
 
 type JsonTokenUtilsTest(output:ITestOutputHelper) =
     let show res =

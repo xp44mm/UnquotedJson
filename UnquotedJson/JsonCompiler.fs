@@ -4,14 +4,10 @@ open FslexFsyacc.Runtime
 open System
 open FSharp.Idioms.Literal
 
-let parser =
-    Parser<Position<JsonToken>> (
-        JsonParseTable.rules,
-        JsonParseTable.actions,
-        JsonParseTable.closures,
+open UnquotedJson.JsonParseTable
 
-        JsonTokenUtils.getTag,
-        JsonTokenUtils.getLexeme)
+let parser = app.getParser<Position<JsonToken>>(JsonTokenUtils.getTag,JsonTokenUtils.getLexeme)
+let table = app.getTable parser
 
 let parseTokens(tokens:seq<Position<JsonToken>>) =
     tokens
@@ -28,7 +24,7 @@ let parse(text:string) =
     let stringifyStates() =
         let symbols =
             states
-            |> List.map(fun(i,_)-> $"{i}/{JsonParseTable.stateSymbolPairs.[i]}")
+            |> List.map(fun(i,_)-> $"{i}/{table.kernelSymbols.[i]}")
         stringify symbols
 
     text
