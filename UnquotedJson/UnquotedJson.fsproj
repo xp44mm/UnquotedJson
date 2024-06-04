@@ -22,11 +22,8 @@
 		<Compile Include="JsonTokenUtils.fs" />
 		<Compile Include="JsonParseTable.fs" />
 		<Compile Include="JsonCompiler.fs" />
-
 		<Compile Include="Json.fs" />
-
 		<Compile Include="UrlQuery.fs" />
-
 		<None Include="readme.md">
 		  <Pack>True</Pack>
 		  <PackagePath>\</PackagePath>
