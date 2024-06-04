@@ -8,7 +8,7 @@ open FSharp.Idioms.Jsons
 open FSharp.Idioms.ActivePatterns
 open FSharp.Idioms.RegularExpressions
 
-open FslexFsyacc.Runtime
+open FslexFsyacc
 
 let tokenize (pos:int) (inp:string) =
     let rec loop (i:int) =

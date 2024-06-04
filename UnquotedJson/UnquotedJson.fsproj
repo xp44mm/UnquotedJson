@@ -20,7 +20,6 @@
 	<ItemGroup>
 		<Compile Include="JsonToken.fs" />
 		<Compile Include="JsonTokenUtils.fs" />
-		<None Include="json.fsyacc" />
 		<Compile Include="JsonParseTable.fs" />
 		<Compile Include="JsonCompiler.fs" />
 
@@ -35,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FslexFsyacc.Runtime" Version="1.4.0" />
+	  <PackageReference Include="FslexFsyacc" Version="1.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>

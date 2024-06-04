@@ -1,6 +1,6 @@
 ﻿module UnquotedJson.JsonCompiler
 
-open FslexFsyacc.Runtime
+open FslexFsyacc
 open System
 open FSharp.Idioms.Literal
 

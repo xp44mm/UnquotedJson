@@ -5,21 +5,22 @@ open FSharp.Idioms.Literal
 open FSharp.xUnit
 open FslexFsyacc
 open FslexFsyacc.Fsyacc
-open FslexFsyacc.Runtime
-open FslexFsyacc.Runtime.Precedences
-open FslexFsyacc.Runtime.YACCs
+open FslexFsyacc
+open FslexFsyacc.Precedences
+open FslexFsyacc.YACCs
 open System.IO
 open System.Text
 open Xunit
 open Xunit.Abstractions
 
-
 type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
+    let solutionPath = DirectoryInfo(__SOURCE_DIRECTORY__).Parent.FullName
+
     let parseTblName = "JsonParseTable"
     let parseTblModule = $"UnquotedJson.{parseTblName}"
-    let solutionPath = DirectoryInfo(__SOURCE_DIRECTORY__).Parent.FullName
+    let filePath = Path.Combine(__SOURCE_DIRECTORY__, "json.fsyacc")
+
     let locatePath = Path.Combine(solutionPath,@"UnquotedJson")
-    let filePath = Path.Combine(locatePath, "json.fsyacc")
     let parseTblPath = Path.Combine(locatePath, $"{parseTblName}.fs")
 
     let show res =
@@ -35,7 +36,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
 
     let fsyacc =
         rawFsyacc
-        |> FslexFsyacc.Runtime.YACCs.FlatFsyaccFile.from
+        |> FslexFsyacc.YACCs.FlatFsyaccFile.from
 
     let coder = FsyaccParseTableCoder.from fsyacc
 
