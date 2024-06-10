@@ -1,11 +1,9 @@
 ﻿namespace UnquotedJson
-
 open FSharp.Idioms
 open FSharp.Idioms.Literal
 open FSharp.xUnit
 open FslexFsyacc
 open FslexFsyacc.Fsyacc
-open FslexFsyacc
 open FslexFsyacc.Precedences
 open FslexFsyacc.YACCs
 open System.IO
@@ -28,15 +26,15 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
         |> stringify
         |> output.WriteLine
         
-    let text = File.ReadAllText(filePath,Encoding.UTF8)
+    let text = File.ReadAllText(filePath, Encoding.UTF8)
 
     let rawFsyacc =
         text
-        |> FsyaccCompiler.compile
+        |> FsyaccCompiler2.compile
 
     let fsyacc =
         rawFsyacc
-        |> FslexFsyacc.YACCs.FlatFsyaccFile.from
+        |> FlatFsyaccFile.from
 
     let coder = FsyaccParseTableCoder.from fsyacc
 
@@ -111,7 +109,7 @@ type UnquotedJsonParseTableTest(output:ITestOutputHelper) =
     //    output.WriteLine(src)
 
     [<Fact(
-    Skip="按需更新源代码"
+    //Skip="按需更新源代码"
     )>]
     member _.``06 - generate ParseTable``() =
         let outp = coder.generateModule(parseTblModule)

@@ -7,12 +7,12 @@ open FSharp.Idioms.Jsons
 let rules : list<string list*(obj list->obj)> = [
     ["";"value"], fun(ss:obj list)-> ss.[0]
     ["array";"[";"]"], fun(ss:obj list)->
-        let result:Json list =
+        let result:list<Json> =
             []
         box result
     ["array";"[";"{value+}";"{\",\"?}";"]"], fun(ss:obj list)->
-        let s1 = unbox<Json list> ss.[1]
-        let result:Json list =
+        let s1 = unbox<list<Json>> ss.[1]
+        let result:list<Json> =
             List.rev s1
         box result
     ["field";"key";":";"value"], fun(ss:obj list)->
@@ -51,7 +51,7 @@ let rules : list<string list*(obj list->obj)> = [
             JsonTokenUtils.fromUnquoted s0
         box result
     ["value";"array"], fun(ss:obj list)->
-        let s0 = unbox<Json list> ss.[0]
+        let s0 = unbox<list<Json>> ss.[0]
         let result:Json =
             Json.Array  s0
         box result
@@ -77,13 +77,13 @@ let rules : list<string list*(obj list->obj)> = [
         box result
     ["{value+}";"value"], fun(ss:obj list)->
         let s0 = unbox<Json> ss.[0]
-        let result:Json list =
+        let result:list<Json> =
             [s0]
         box result
     ["{value+}";"{value+}";",";"value"], fun(ss:obj list)->
-        let s0 = unbox<Json list> ss.[0]
+        let s0 = unbox<list<Json>> ss.[0]
         let s2 = unbox<Json> ss.[2]
-        let result:Json list =
+        let result:list<Json> =
             s2::s0
         box result
 ]
