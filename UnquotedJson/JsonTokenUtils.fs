@@ -24,7 +24,7 @@ let tokenize (pos:int) (inp:string) =
                     value = LBRACE
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | First '}' _ ->
                 let postok = {
@@ -33,7 +33,7 @@ let tokenize (pos:int) (inp:string) =
                     value = RBRACE
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | First '[' _ ->
                 let postok = {
@@ -42,7 +42,7 @@ let tokenize (pos:int) (inp:string) =
                     value = LBRACK
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | First ']' _ ->
                 let postok = {
@@ -51,7 +51,7 @@ let tokenize (pos:int) (inp:string) =
                     value = RBRACK
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | First ',' _ ->
                 let postok = {
@@ -60,7 +60,7 @@ let tokenize (pos:int) (inp:string) =
                     value = COMMA
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | First ':' _ ->
                 let postok = {
@@ -69,7 +69,7 @@ let tokenize (pos:int) (inp:string) =
                     value = COLON
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | Rgx @"^\s+" x -> 
                 let pos = i + x.Length
@@ -90,7 +90,7 @@ let tokenize (pos:int) (inp:string) =
                     value = QUOTED(Json.unquote lexeme.Value)
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | Rgx @"^[^,:{}[\]""]+(?<=\S)" lexeme ->
 
@@ -100,14 +100,14 @@ let tokenize (pos:int) (inp:string) =
                     value = UNQUOTED lexeme.Value
                 }
                 yield postok
-                yield! loop postok.nextIndex
+                yield! loop postok.adjacent
 
             | rest -> failwith $"tokenize:{rest}"
         }
     
     loop pos
 
-let getTag (postok:Position<JsonToken>) = 
+let getTag (postok:PositionWith<JsonToken>) = 
     match postok.value with
     | COMMA      -> ","
     | COLON      -> ":"
@@ -120,7 +120,7 @@ let getTag (postok:Position<JsonToken>) =
     | WS       _ -> "WS"
     | COMMENT  _ -> "COMMENT"
 
-let getLexeme (postok:Position<JsonToken>) = 
+let getLexeme (postok:PositionWith<JsonToken>) = 
     match postok.value with
     | QUOTED   raw
     | UNQUOTED raw

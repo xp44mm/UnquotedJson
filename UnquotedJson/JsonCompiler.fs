@@ -6,10 +6,10 @@ open FSharp.Idioms.Literal
 
 open UnquotedJson.JsonParseTable
 
-let parser = app.getParser<Position<JsonToken>>(JsonTokenUtils.getTag,JsonTokenUtils.getLexeme)
+let parser = app.getParser<PositionWith<JsonToken>>(JsonTokenUtils.getTag,JsonTokenUtils.getLexeme)
 let table = app.getTable parser
 
-let parseTokens(tokens:seq<Position<JsonToken>>) =
+let parseTokens(tokens:seq<PositionWith<JsonToken>>) =
     tokens
     |> parser.parse
     |> JsonParseTable.unboxRoot
