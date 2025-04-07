@@ -4,8 +4,6 @@ open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.Primitives
 
-open FSharp.Control.Tasks.V2
-
 [<ApiController>]
 [<Route("[controller]/[action]")>]
 type LoggerController(_logger:ILogger<LoggerController>) =

@@ -11,8 +11,6 @@ open Microsoft.Net.Http.Headers
 
 open FSharp.Idioms
 open FSharp.Idioms.Jsons
-open UnquotedJson
-open FSharp.Control.Tasks.V2
 
 type UnquotedJsonActionResultExecutor
     (

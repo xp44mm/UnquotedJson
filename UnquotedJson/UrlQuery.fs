@@ -97,6 +97,6 @@ let parseQueryDynamic (ty:Type) (fields:seq<string*string>) =
         target
 
 /// parse Query string collection
-let parseQuery<'t> (fields:seq<string*string>) = 
+let parseQuery<'t> (fields:seq<string*string>) =
     parseQueryDynamic typeof<'t> fields :?> 't
 

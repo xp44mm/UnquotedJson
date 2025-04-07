@@ -10,6 +10,11 @@ Build an ASP.NET Core Web App, and install following NuGet packages:
 install-package Microsoft.AspNetCore.SpaServices.Extensions
 install-package AspNetCore.UnquotedJson
 ```
+## namespace
+
+```fsharp
+open AspNetCore
+```
 
 ## How to serialize The return value of the controller's actions as JSON
 

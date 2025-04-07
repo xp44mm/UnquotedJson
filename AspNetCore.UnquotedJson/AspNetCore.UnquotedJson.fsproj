@@ -10,11 +10,11 @@
 		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/xp44mm/UnquotedJson</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/xp44mm/UnquotedJson</RepositoryUrl>
-		<PackageReleaseNotes>update nuget</PackageReleaseNotes>
+		<PackageReleaseNotes>update fsharp.idioms 1.4.29</PackageReleaseNotes>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>0.0.3</Version>
+		<Version>1.0.24</Version>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
@@ -30,9 +30,9 @@
 		  <Pack>True</Pack>
 		  <PackagePath>\</PackagePath>
 		</None>
-		<PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
+		<PackageReference Include="FSharp.Idioms" Version="1.4.29" />
 		<ProjectReference Include="..\UnquotedJson\UnquotedJson.fsproj" />
-		<PackageReference Update="FSharp.Core" Version="8.0.301" />
+		<PackageReference Update="FSharp.Core" Version="9.0.201" />
 	</ItemGroup>
 
 

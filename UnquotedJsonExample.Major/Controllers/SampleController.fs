@@ -3,7 +3,7 @@
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 
-open FSharp.Literals
+open FSharp.Idioms
 open AspNetCore
 
 [<ApiController>]
@@ -35,4 +35,3 @@ type SampleController(_logger:ILogger<SampleController>) =
             req.Query 
             |> Query.toPairs
         _logger.LogInformation(Literal.stringify (List.ofSeq kvps))
-        

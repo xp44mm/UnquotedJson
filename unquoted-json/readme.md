@@ -155,3 +155,41 @@ expect(y).toEqual("a%2B%3D1")
 - `AspNetCore.UnqotedJson`是一个NuGet开源库，开源于github，它将UnqotedJson整合进Asp.net，位于xp44mm/UnquotedJson仓库。
 - 可以应用于Asp.net项目序列化JSON格式，演练教程如下：xp44mm/UrljsonExample
 
+## 如何运行项目：
+
+用文件资源浏览器打开本项目根文件夹(`unquoted-json`)
+
+在路径栏输入cmd打开命令窗口，输入
+
+```
+Microsoft Windows [版本 10.0.26100.3194]
+(c) Microsoft Corporation。保留所有权利。
+
+D:\Application Data\GitHub\xp44mm\UnquotedJson\unquoted-json>npm test
+
+> unquoted-json@1.0.0 test
+> jest
+
+ PASS  test/encodeURI.test.js
+ PASS  test/URLSearchParams.test.js
+ PASS  src/pctEncodeChar.test.js
+ PASS  src/stringifyKey.test.js
+ PASS  src/toUtf8.test.js
+ PASS  src/stringifyStringValue.test.js
+ PASS  test/EscapeSequence.test.js
+ PASS  src/unquotedJsonStringify.test.js
+ PASS  src/queryPctEncode.test.js
+ PASS  test/querystring.test.js
+ PASS  src/queryStringify.test.js
+
+Test Suites: 11 passed, 11 total
+Tests:       105 passed, 105 total
+Snapshots:   0 total
+Time:        2.603 s
+Ran all test suites.
+
+D:\Application Data\GitHub\xp44mm\UnquotedJson\unquoted-json>
+```
+
+
+

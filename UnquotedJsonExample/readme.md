@@ -1,8 +1,10 @@
 # 项目创建说明
 
-url字符串长度是一种稀缺资源，根据服务器不同，对长度有不同的限制。我们应该只传递必要的数据。
+要尽量使url可阅读，以便传抄。
 
-要尽量使url可阅读，以便传抄。要尽量缩短URL，尽可能地使用GET请求，以便优化WEB的性能。
+url字符串长度是一种稀缺资源，根据服务器不同，对长度有不同的限制。要尽量缩短URL，我们应该只传递必要的数据。
+
+尽可能地使用GET请求，以便优化WEB的性能。
 
 get参数过长的一种解决方案，尽可能避免百分号编码。
 
@@ -12,13 +14,11 @@ JSON格式经常用于Restful传递数据，`FSharpCompiler.Json`可以集成用
 
 我们在客户端使用`urljson-serializer`来格式化查询数据为查询字符串，
 
-在asp.net服务器端使用的编程语言是F#，F#是一门兼容面向对象的函数式编程语言。函数式编程语言非常擅长处理数据。
+在asp.net服务器端使用的编程语言是F#。
 
 使用`FSharpCompiler.Json`解析url查询字符串为.net数据。
 
 使用`AspNetCore.FSharpCompilerJson`将解析器包整合进Asp,net框架。
-
-
 
 ## 初始化项目
 
@@ -214,7 +214,6 @@ member this.Test1() =
     let args = this.Request.Query |> Query.toPairs
     let resObj = UrlQuery.parse<{|foo:string;abc:string[]|}> args
     JsonResult resObj
-
 ```
 
 也可以通过浏览器导航栏来发送数据，F12查看请求与响应。

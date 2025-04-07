@@ -13,7 +13,7 @@ let AddUnquotedJson(services:IServiceCollection) =
     if Seq.isEmpty jsonResultExecutor then
         ()
     else
-        let e = jsonResultExecutor |> Seq.exactlyOne
+        let e = Seq.exactlyOne jsonResultExecutor
         services.Remove(e) |> ignore
 
     services.AddSingleton<IActionResultExecutor<JsonResult>, UnquotedJsonActionResultExecutor>()
