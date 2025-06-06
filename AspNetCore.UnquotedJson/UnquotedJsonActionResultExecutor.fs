@@ -19,6 +19,7 @@ type UnquotedJsonActionResultExecutor
     ) =
     interface IActionResultExecutor<JsonResult> with
         member this.ExecuteAsync(context:ActionContext, result:JsonResult) =
+            // 如果结果已经是Json类型不变，否则将其他类型转化为Json类型的数据
             let json = 
                 match result.Value with
                 | :? Json as json -> json
