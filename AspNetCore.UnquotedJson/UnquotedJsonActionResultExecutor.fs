@@ -12,6 +12,7 @@ open Microsoft.Net.Http.Headers
 open FSharp.Idioms
 open FSharp.Idioms.Jsons
 
+[<System.Obsolete("")>]
 type UnquotedJsonActionResultExecutor
     (
         writerFactory:IHttpResponseStreamWriterFactory

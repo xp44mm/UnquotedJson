@@ -1,4 +1,4 @@
-﻿module AspNetCore.Query
+﻿module AspNetCore.UnquotedJson.Query
 
 let firstOrDefault sv = sv |> Seq.tryHead |> Option.defaultValue ""
 

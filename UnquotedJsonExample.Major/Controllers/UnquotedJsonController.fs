@@ -5,8 +5,9 @@ open UnquotedJsonExample
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 
-open AspNetCore
 open UnquotedJson
+open AspNetCore
+open AspNetCore.UnquotedJson
 
 [<ApiController>]
 [<Route("[controller]/[action]")>]

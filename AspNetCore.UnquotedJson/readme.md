@@ -13,7 +13,7 @@ install-package AspNetCore.UnquotedJson
 ## namespace
 
 ```fsharp
-open AspNetCore
+open AspNetCore.UnquotedJson
 ```
 
 ## How to serialize The return value of the controller's actions as JSON
@@ -23,7 +23,7 @@ in `Startup.cs` file, Modify the method `ConfigureServices` to add dependency in
 ```C#
 public void ConfigureServices(IServiceCollection services) {
     ...
-    UnquotedJsonDependencyInjection.AddUnquotedJson(services);
+    services.Replace(ServiceDescriptor.Singleton<IActionResultExecutor<ObjectResult>, ObjectResultExecutor>());
 }
 ```
 
@@ -33,7 +33,7 @@ This configuration means that `UnquotedJson` has been integrated into ASP.NET to
 [<HttpGet>]
 member this.action() = 
     ...
-    JsonResult data
+    data
 ```
 
 data will be serialized as json using the `UnquotedJson` serializer, which is ASP.NET's serializer.
@@ -56,11 +56,14 @@ where the type of `kvps` is `seq<string*string>`.
 For example, a request's url query string is:
 
 ```
-?foo=bar&baz=[`qux`,`quux`]
+?foo=bar&baz=[qux,quux]
 ```
 
 The kvps corresponding to the query string are parsed as follows:
 
 ```F#
-["foo","bar";"baz","[`qux`,`quux`]"]
+[
+  ["foo","bar"],
+  ["baz","[qux,quux]"]
+]
 ```
