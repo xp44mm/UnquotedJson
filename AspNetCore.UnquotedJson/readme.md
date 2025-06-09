@@ -18,13 +18,21 @@ open AspNetCore.UnquotedJson
 
 ## How to serialize The return value of the controller's actions as JSON
 
-in `Startup.cs` file, Modify the method `ConfigureServices` to add dependency injection to it:
+in `Program.fs` file, add dependency injection to it:
 
-```C#
-public void ConfigureServices(IServiceCollection services) {
-    ...
-    services.Replace(ServiceDescriptor.Singleton<IActionResultExecutor<ObjectResult>, ObjectResultExecutor>());
-}
+```fsharp
+[<EntryPoint>]
+let main args =
+    let builder = WebApplication.CreateBuilder(args)
+    builder.Services.AddControllers() 
+    |> ignore
+
+    builder.Services.Replace(
+        ServiceDescriptor.Singleton<IActionResultExecutor<ObjectResult>, 
+        AspNetCore.UnquotedJson.ObjectResultExecutor>()
+        ) 
+    |> ignore
+
 ```
 
 This configuration means that `UnquotedJson` has been integrated into ASP.NET to replace the built-in json serializer.
@@ -50,8 +58,6 @@ member this.kvps() =
 ```
 
 where the type of `kvps` is `seq<string*string>`.
-
-
 
 For example, a request's url query string is:
 
